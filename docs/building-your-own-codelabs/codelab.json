@@ -1,0 +1,27 @@
+{
+  "environment": "web",
+  "source": "build-your-own-codelabs.md",
+  "format": "html",
+  "prefix": "../",
+  "mainga": "UA-49880327-14",
+  "updated": "2018-12-24T00:02:58+01:00",
+  "id": "building-your-own-codelabs",
+  "duration": 4,
+  "title": "Building your own codelabs",
+  "author": "Patrick Merlot",
+  "summary": "Building your own codelabs",
+  "theme": "",
+  "status": [
+    "draft"
+  ],
+  "category": [
+    "education",
+    "bast-practices"
+  ],
+  "tags": [
+    "codelabs"
+  ],
+  "feedback": "github.com/Patechoc/codelabs",
+  "ga": "72074624",
+  "url": "building-your-own-codelabs"
+}

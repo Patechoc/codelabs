@@ -48,7 +48,7 @@ Duration: 0:05
 
 You can use this tutorial as an example of markdown-based codelabs.
 
-* Simply download this file: https://raw.githubusercontent.com/Patechoc/codelabs/master/build-your-own-codelabs.md
+* Simply download this file: [https://raw.githubusercontent.com/Patechoc/codelabs/master/build-your-own-codelabs.md](https://raw.githubusercontent.com/Patechoc/codelabs/master/build-your-own-codelabs.md)
 * Change the content of the tutorial
 * Export your markdown as a codelabs by replacing "<CDOELAB-NAME>" by the name of you file: `claat export --prefix "../../" -o docs <CDOELAB-NAME>.md`
 * Build all the required dependencies and render the generated codelab as it would appear in production: `cd docs && claat build`
