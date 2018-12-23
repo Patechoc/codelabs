@@ -64,3 +64,16 @@ Duration: 0:05
 
 Official instructions are [here](https://github.com/googlecodelabs/tools#ok-how-do-i-use-it)
 
+
+
+## Deploy your codelabs on GitHub
+Duration: 0:10
+
+* Go to the GitHub repository that will host your codelabs (e.g. [https://github.com/Patechoc/codelabs](https://github.com/Patechoc/codelabs))
+* Click on the **Settings** tab at the top of the page
+* Scroll down to the **GiHub Pages** section
+* Selecting the **Source** to be "**master branch /docs folder**" and clicking **Save** will activate GitHub Pages. 
+
+GitHub generates a url to the HTML content served (e.g. [https://patechoc.github.io/codelabs/](https://patechoc.github.io/codelabs/).).  
+
+Congratulations! Your generated codelabs under `docs/` are now hosted by GitHub ;) 
