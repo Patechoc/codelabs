@@ -11,7 +11,7 @@ analytics account: 72074624
 
 
 ## Overview of the tutorial
-Duration: 0:05
+Duration: 0:30
 
 This tutorial shows you how to create host your own codelabs on GitHub. In this tutorial you will do the following: 
 
@@ -28,7 +28,7 @@ Negative
 
 
 ## Install `claat`
-Duration: 0:10
+Duration: 10:00
 
 The CLaaT project, **Codelabs as a Thing**, is the tool behind codelabs that gives developers around the world a hands-on experience with Google products.
 
@@ -44,7 +44,7 @@ Test your installation by typing `claat --help`. If the help doesn't show up, ma
 
 
 ## Generate your tutorial as markdown
-Duration: 0:05
+Duration: 5:00
 
 You can use this tutorial as an example of markdown-based codelabs.
 
@@ -60,14 +60,14 @@ It takes no arguments and presents the current directory contents: `claat serve`
 
 
 ## Generate your tutorial in a Google Docs
-Duration: 0:05
+Duration: 5:00
 
 Official instructions are [here](https://github.com/googlecodelabs/tools#ok-how-do-i-use-it)
 
 
 
 ## Deploy your codelabs on GitHub
-Duration: 0:10
+Duration: 5:00
 
 * Go to the GitHub repository that will host your codelabs (e.g. [https://github.com/Patechoc/codelabs](https://github.com/Patechoc/codelabs))
 * Click on the **Settings** tab at the top of the page
