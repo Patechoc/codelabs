@@ -18,20 +18,21 @@ Google Codelabs on its own is also an open source project that I re-use here to 
 
 
 
-## Create codelab
+## Create a codelab
 
 ###  Generate content from markdown
 
-* Write a codelab! See [https://github.com/googlecodelabs](https://github.com/googlecodelabs/) for instructions
+* Write a codelab! See https://github.com/googlecodelabs/ for instructions
 * `claat export --prefix "../" -o docs codelab-name.md` 
-* `cd docs && claat build` 
+* build the html version of your tutorial: `cd docs && claat build`
+* serve them locally with `claat serve`
 
 and commit & push files to master
 
 
 ###  Generate content from Google Docs
 
-[https://github.com/googlecodelabs/tools#ok-how-do-i-use-it](https://github.com/googlecodelabs/tools#ok-how-do-i-use-it)
+You can also generate a codelab from a GDocs: https://github.com/googlecodelabs/tools#ok-how-do-i-use-it
 
 
 ## Reference
