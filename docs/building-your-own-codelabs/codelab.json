@@ -2,9 +2,9 @@
   "environment": "web",
   "source": "build-your-own-codelabs.md",
   "format": "html",
-  "prefix": "../",
+  "prefix": "../../",
   "mainga": "UA-49880327-14",
-  "updated": "2018-12-24T00:43:09+01:00",
+  "updated": "2019-01-03T13:56:43+01:00",
   "id": "building-your-own-codelabs",
   "duration": 26,
   "title": "Building your own codelabs",
@@ -16,7 +16,7 @@
   ],
   "category": [
     "education",
-    "bast-practices"
+    "best-practices"
   ],
   "tags": [
     "codelabs"

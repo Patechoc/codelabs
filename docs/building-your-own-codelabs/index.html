@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#4F7DC9">
   <meta charset="UTF-8">
   <title>Building your own codelabs</title>
-  <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-  <link rel="import" href="../elements/codelab.html">
+  <script src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../../elements/codelab.html">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
   <style is="custom-style">
     body {
@@ -25,7 +25,7 @@
                   feedback-link="github.com/Patechoc/codelabs">
     
       <google-codelab-step label="Overview of the tutorial" duration="1">
-        <p>This tutorial shows you how to create host your own codelabs on GitHub. In this tutorial you will do the following:</p>
+        <p>This tutorial shows you how to create and host your own codelabs on GitHub. In this tutorial you will do the following:</p>
 <ul>
 <li>setup your own codelabs plateform.</li>
 <li>create your very first codelab tutorial.</li>
@@ -46,7 +46,7 @@ claat" duration="10">
         <p>The CLaaT project, <strong>Codelabs as a Thing</strong>, is the tool behind codelabs that gives developers around the world a hands-on experience with Google products.</p>
 <p>This project has been implemented as a volunteer project by a small group of dedicated Googlers who care deeply about this kind of &#34;learning by doing&#34; approach to education and it is <a href="https://github.com/googlecodelabs/tools#how-do-i-publish-my-codelabs" target="_blank">opened for anyone to use</a>.</p>
 <p>So before building codelabs-based tutorials, you will need to install <code>claat</code>, the tool that will convert your formatted tutorial (from a Google Docs or from a markdown file) to a codelab.</p>
-<p>Follow these instructions: https://github.com/googlecodelabs/tools/blob/master/claat/README.md#install</p>
+<p>Follow these instructions for installation: <a href="https://github.com/googlecodelabs/tools/blob/master/claat/README.md#install" target="_blank">https://github.com/googlecodelabs/tools/blob/master/claat/README.md#install</a></p>
 <p>Test your installation by typing <code>claat --help</code>. If the help doesn&#39;t show up, make sure you properly installed go.</p>
 
 
@@ -55,18 +55,19 @@ claat" duration="10">
       <google-codelab-step label="Generate your tutorial as markdown" duration="5">
         <p>You can use this tutorial as an example of markdown-based codelabs.</p>
 <ul>
-<li>Simply download this file: <a href="https://raw.githubusercontent.com/Patechoc/codelabs/master/build-your-own-codelabs.md" target="_blank">https://raw.githubusercontent.com/Patechoc/codelabs/master/build-your-own-codelabs.md</a></li>
+<li>Download this file to serve as template or example: <a href="https://raw.githubusercontent.com/Patechoc/codelabs/master/build-your-own-codelabs.md" target="_blank">https://raw.githubusercontent.com/Patechoc/codelabs/master/build-your-own-codelabs.md</a></li>
 <li>Change the content of the tutorial</li>
-<li>Export your markdown as a codelabs by replacing &#34;&#34; by the name of you file: <code>claat export --prefix &#34;../../&#34; -o docs &lt;CDOELAB-NAME&gt;.md</code></li>
-<li>Build all the required dependencies and render the generated codelab as it would appear in production: <code>cd docs &amp;&amp; claat build</code></li>
+<li>Generate your tutorial into a &#34;codelab&#34; from your markdown by replacing &#34;CODELAB-NAME&#34; with the name of your file: <code>claat export --prefix &#34;../../&#34; -o docs CODELAB-NAME.md</code></li>
+<li>Build all the required dependencies and render the generated codelabs as it/they would appear in production: <code>cd docs &amp;&amp; claat build</code></li>
 </ul>
-<p>Eventually you can also serve the final app in a simple web server for viewing exported codelabs.<br>It takes no arguments and presents the current directory contents: <code>claat serve</code></p>
+<p>Eventually you can also serve the final app in a simple web server for viewing exported codelabs locally: <code>claat serve</code><br>It takes no arguments and presents the current directory contents.</p>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="Generate your tutorial in a Google Docs" duration="5">
         <p>Official instructions are <a href="https://github.com/googlecodelabs/tools#ok-how-do-i-use-it" target="_blank">here</a></p>
+<p>I haven&#39;t tried yet as I am a big fan of Markdown, but this might be a quicker way to build more elaborate tutorials.</p>
 
 
       </google-codelab-step>
