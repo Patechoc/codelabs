@@ -4,7 +4,7 @@
   "format": "html",
   "prefix": "../",
   "mainga": "UA-49880327-14",
-  "updated": "2019-01-03T13:56:43+01:00",
+  "updated": "2019-01-04T10:18:33+01:00",
   "id": "building-your-own-codelabs",
   "duration": 26,
   "title": "Building your own codelabs",
@@ -22,6 +22,6 @@
     "codelabs"
   ],
   "feedback": "github.com/Patechoc/codelabs",
-  "ga": "72074624",
+  "ga": "UA-72074624-2",
   "url": "building-your-own-codelabs"
 }

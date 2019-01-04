@@ -5,6 +5,7 @@ categories:        education,best-practices,machine-learning,explainability
 environments:      Codelabs
 status:            draft
 feedback link:     github.com/Patechoc/codelabs
+analytics account: UA-72074624-2
 
 # Machine Learning Model Explainability
 

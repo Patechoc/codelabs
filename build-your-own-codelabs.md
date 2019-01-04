@@ -5,7 +5,7 @@ categories:        education,best-practices
 environments:      Codelabs
 status:            draft
 feedback link:     github.com/Patechoc/codelabs
-analytics account: 72074624
+analytics account: UA-72074624-2
 
 # Building your own codelabs
 
