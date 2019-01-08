@@ -26,17 +26,15 @@
     
       <google-codelab-step label="Overview of the tutorial" duration="5">
         <p><a href="https://www.elastic.co/products/elasticsearch" target="_blank"><br>Elasticsearch</a> is a powerful search engine based on the <a href="http://lucene.apache.org/" target="_blank">Apache Lucene</a> library</p>
-<p>This tutorial is about learning the basics of Elasticsearch, possibly going through all the topics (<a href="https://www.elastic.co/training" target="_blank">Elasticsearch Engineer I &amp; II</a>) one need to know to pass the certification exam.</p>
+<p>This tutorial is about learning the basics of Elasticsearch, possibly going through all the topics one need to know to pass the certification exam (<a href="https://www.elastic.co/training" target="_blank">Elasticsearch Engineer I &amp; II</a>).</p>
 <h2>What you will learn</h2>
 <p>This tutorial doesn&#39;t exactly follow the content of the official training, but you will learn to run Elasticsearch on a small <strong>single-node cluster</strong>, running <strong>locally for free on your laptop</strong>.</p>
 <p>More specifically, you will learn to do the following:</p>
 <ul>
-<li>Install Elasticsearch using Docker</li>
-<li>Custom your own Docker image of Elasticsearch to configure it as you wish<br><br><ul>
-<li>loading data by restoring a snapshot <strong>[incomplete]</strong></li>
-<li>processing raw files to load them into Elasticsearch <strong>[incomplete]</strong></li>
-</ul>
-</li>
+<li>install Elasticsearch using Docker</li>
+<li>install Elasticsearch by customizing your own Docker image, and configure Elasticsearch as you wish</li>
+<li>configure it to load data by restoring a snapshot <strong>[incomplete]</strong></li>
+<li>configure it to process raw files and load their data into Elasticsearch <strong>[incomplete]</strong></li>
 <li>... more basic features of ELK (<strong>more coming!!!</strong>)</li>
 </ul>
 
@@ -45,22 +43,19 @@
     
       <google-codelab-step label="Elastic Online Training" duration="3">
         <p>Looking for the official Elastic training and certifications, you should check these links:</p>
+<h2>Become an Elastic Certified Engineer</h2>
 <ul>
-<li>Become an Elastic Certified Engineer:<br><br><ul>
-<li><a href="https://www.elastic.co/training/elasticsearch-engineer-1" target="_blank">Elasticsearch Engineer I</a>: learn how to manage deployments and develop solutions.<br><br><ul>
+<li><a href="https://www.elastic.co/training/elasticsearch-engineer-1" target="_blank">Elasticsearch Engineer I</a>: learn how to manage deployments and develop solutions.</li>
 <li><a href="https://www.elastic.co/training/elasticsearch-engineer-2" target="_blank">Elasticsearch Engineer II</a>: Develop a deeper understanding of how Elasticsearch works and master advanced deployment techniques.</li>
 <li><a href="https://www.elastic.co/training/certification" target="_blank">Elastic Certified Engineer</a>: Test your Elasticsearch skills with our performance-based certification exam</li>
-</ul>
-</li>
-</ul>
-</li>
 <li>How to <a href="https://training.elastic.co/WelcomeElasticTrainingSubscription#learning-portal" target="_blank">register</a> for a course?</li>
 </ul>
-<p>The training are often virtual courses you can follow from anywhere, but they are live, so you need to register in advance and plan 4 hours a day for 4 days in a row.</p>
 <h2>Elastic Engineer I</h2>
 <p>https://training.elastic.co/instructor-led-training/ElasticsearchEngineerI-Virtual</p>
 <h2>Elastic Engineer II</h2>
 <p>https://training.elastic.co/instructor-led-training/ElasticsearchEngineerII-Virtual</p>
+<aside class="warning"><p>The training are often virtual courses you can follow from anywhere, but they are live, so you need to register in advance and plan 4 hours a day for 4 days in a row.</p>
+</aside>
 
 
       </google-codelab-step>
@@ -81,8 +76,8 @@
 </ol>
 <p>Described below is another way to run Elasticsearch from within a container using Docker. This allows for a simpler, cleaner, (but <strong>temporary</strong>!!) installation of the Elastic stack which makes it practical for learning purposes.</p>
 <h2>Prerequisite for any installation of Elasticsearch</h2>
-<p><a href="https://elk-docker.readthedocs.io/#prerequisites" target="_blank"><br>As prerequisites</a>, Elasticsearch alone needs at least 2GB of RAM to run &gt;&gt; a minimum of 4GB RAM assigned to run in Docker!</p>
-<p>Negative :<br>This is the most frequent reason for your image of Elasticsearch failing to start since Elasticsearch version 5 was released.</p>
+<aside class="warning"><p>This is the most frequent reason for your image of Elasticsearch failing to start since Elasticsearch version 5 was released. <a href="https://elk-docker.readthedocs.io/#prerequisites" target="_blank">Among other prerequisites</a>, Elasticsearch alone needs at least 2GB of RAM to run &gt;&gt; a minimum of 4GB RAM assigned to run in Docker!</p>
+</aside>
 <p>On Linux, use <code>sysctl vm.max_map_count</code> on the host to view the current value, and see Elasticsearch&#39;s documentation on virtual memory for guidance on how to change this value. Note that the limits must be changed on the host; they cannot be changed from within a container.</p>
 <pre><code>~$ sysctl vm.max_map_count 
 vm.max_map_count = 65530

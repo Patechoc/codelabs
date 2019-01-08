@@ -14,7 +14,7 @@ Duration: 5:00
 
 [**Elasticsearch**](https://www.elastic.co/products/elasticsearch) is a powerful search engine based on the [Apache Lucene](http://lucene.apache.org/) library
 
-This tutorial is about learning the basics of Elasticsearch, possibly going through all the topics ([Elasticsearch Engineer I & II](https://www.elastic.co/training)) one need to know to pass the certification exam.
+This tutorial is about learning the basics of Elasticsearch, possibly going through all the topics one need to know to pass the certification exam ([Elasticsearch Engineer I & II](https://www.elastic.co/training)).
 
 
 
@@ -24,10 +24,10 @@ This tutorial doesn't exactly follow the content of the official training, but y
 
 More specifically, you will learn to do the following:
 
-* Install Elasticsearch using Docker
-* Custom your own Docker image of Elasticsearch to configure it as you wish
-    * loading data by restoring a snapshot **[incomplete]**
-    * processing raw files to load them into Elasticsearch **[incomplete]**
+* install Elasticsearch using Docker
+* install Elasticsearch by customizing your own Docker image, and configure Elasticsearch as you wish
+* configure it to load data by restoring a snapshot **[incomplete]**
+* configure it to process raw files and load their data into Elasticsearch **[incomplete]**
 * ... more basic features of ELK (**more coming!!!**)
 
 
@@ -39,13 +39,13 @@ Duration: 2:30
 
 Looking for the official Elastic training and certifications, you should check these links:
 
-* Become an Elastic Certified Engineer:
-    * [Elasticsearch Engineer I](https://www.elastic.co/training/elasticsearch-engineer-1): learn how to manage deployments and develop solutions.
-	 * [Elasticsearch Engineer II](https://www.elastic.co/training/elasticsearch-engineer-2): Develop a deeper understanding of how Elasticsearch works and master advanced deployment techniques.
-	 * [Elastic Certified Engineer](https://www.elastic.co/training/certification): Test your Elasticsearch skills with our performance-based certification exam
+### Become an Elastic Certified Engineer
+
+* [Elasticsearch Engineer I](https://www.elastic.co/training/elasticsearch-engineer-1): learn how to manage deployments and develop solutions.
+* [Elasticsearch Engineer II](https://www.elastic.co/training/elasticsearch-engineer-2): Develop a deeper understanding of how Elasticsearch works and master advanced deployment techniques.
+* [Elastic Certified Engineer](https://www.elastic.co/training/certification): Test your Elasticsearch skills with our performance-based certification exam
 * How to [register](https://training.elastic.co/WelcomeElasticTrainingSubscription#learning-portal) for a course?
 
-> The training are often virtual courses you can follow from anywhere, but they are live, so you need to register in advance and plan 4 hours a day for 4 days in a row.
 
 ### Elastic Engineer I
 
@@ -55,7 +55,8 @@ https://training.elastic.co/instructor-led-training/ElasticsearchEngineerI-Virtu
 
 https://training.elastic.co/instructor-led-training/ElasticsearchEngineerII-Virtual
 
-
+Negative
+: The training are often virtual courses you can follow from anywhere, but they are live, so you need to register in advance and plan 4 hours a day for 4 days in a row.
 
 
 ## Installation & Configuration
@@ -79,10 +80,8 @@ Described below is another way to run Elasticsearch from within a container usin
 
 ### Prerequisite for any installation of Elasticsearch
 
-[**As prerequisites**](https://elk-docker.readthedocs.io/#prerequisites), Elasticsearch alone needs at least 2GB of RAM to run >> a minimum of 4GB RAM assigned to run in Docker!
-
-Negative :
-This is the most frequent reason for your image of Elasticsearch failing to start since Elasticsearch version 5 was released.
+Negative
+: This is the most frequent reason for your image of Elasticsearch failing to start since Elasticsearch version 5 was released. [Among other prerequisites](https://elk-docker.readthedocs.io/#prerequisites), Elasticsearch alone needs at least 2GB of RAM to run >> a minimum of 4GB RAM assigned to run in Docker!
 
 On Linux, use `sysctl vm.max_map_count` on the host to view the current value, and see Elasticsearch's documentation on virtual memory for guidance on how to change this value. Note that the limits must be changed on the host; they cannot be changed from within a container.
 
