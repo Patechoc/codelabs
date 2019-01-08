@@ -1,0 +1,267 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Learning Elasticsearch by running it in Docker</title>
+  <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../elements/codelab.html">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <style is="custom-style">
+    body {
+      font-family: "Roboto",sans-serif;
+      background: var(--google-codelab-background, #F8F9FA);
+    }
+  </style>
+  
+</head>
+<body unresolved class="fullbleed">
+
+  <google-codelab title="Learning Elasticsearch by running it in Docker"
+                  environment="web"
+                  feedback-link="github.com/Patechoc/codelabs">
+    
+      <google-codelab-step label="Overview of the tutorial" duration="5">
+        <p><a href="https://www.elastic.co/products/elasticsearch" target="_blank"><br>Elasticsearch</a> is a powerful search engine based on the <a href="http://lucene.apache.org/" target="_blank">Apache Lucene</a> library</p>
+<p>This tutorial is about learning the basics of Elasticsearch, possibly going through all the topics (<a href="https://www.elastic.co/training" target="_blank">Elasticsearch Engineer I &amp; II</a>) one need to know to pass the certification exam.</p>
+<h2>What you will learn</h2>
+<p>This tutorial doesn&#39;t exactly follow the content of the official training, but you will learn to run Elasticsearch on a small <strong>single-node cluster</strong>, running <strong>locally for free on your laptop</strong>.</p>
+<p>More specifically, you will learn to do the following:</p>
+<ul>
+<li>Install Elasticsearch using Docker</li>
+<li>Custom your own Docker image of Elasticsearch to configure it as you wish<br><br><ul>
+<li>loading data by restoring a snapshot <strong>[incomplete]</strong></li>
+<li>processing raw files to load them into Elasticsearch <strong>[incomplete]</strong></li>
+</ul>
+</li>
+<li>... more basic features of ELK (<strong>more coming!!!</strong>)</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Elastic Online Training" duration="3">
+        <p>Looking for the official Elastic training and certifications, you should check these links:</p>
+<ul>
+<li>Become an Elastic Certified Engineer:<br><br><ul>
+<li><a href="https://www.elastic.co/training/elasticsearch-engineer-1" target="_blank">Elasticsearch Engineer I</a>: learn how to manage deployments and develop solutions.<br><br><ul>
+<li><a href="https://www.elastic.co/training/elasticsearch-engineer-2" target="_blank">Elasticsearch Engineer II</a>: Develop a deeper understanding of how Elasticsearch works and master advanced deployment techniques.</li>
+<li><a href="https://www.elastic.co/training/certification" target="_blank">Elastic Certified Engineer</a>: Test your Elasticsearch skills with our performance-based certification exam</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>How to <a href="https://training.elastic.co/WelcomeElasticTrainingSubscription#learning-portal" target="_blank">register</a> for a course?</li>
+</ul>
+<p>The training are often virtual courses you can follow from anywhere, but they are live, so you need to register in advance and plan 4 hours a day for 4 days in a row.</p>
+<h2>Elastic Engineer I</h2>
+<p>https://training.elastic.co/instructor-led-training/ElasticsearchEngineerI-Virtual</p>
+<h2>Elastic Engineer II</h2>
+<p>https://training.elastic.co/instructor-led-training/ElasticsearchEngineerII-Virtual</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Installation &amp; Configuration" duration="15">
+        <h2>Local installation of Elasticsearch</h2>
+<p>Normal steps to install a single-node Elastic environment would include:</p>
+<ol type="1">
+<li>Install Java</li>
+<li>Download and Setup Elastisearch</li>
+<li>Run Elasticsearch: <code>&lt;path_to_elasticsearch_root_dir&gt;/bin/elasticsearch</code></li>
+<li>Run Kibana: <code>&lt;path_to_kibana_root_dir&gt;/bin/kibana</code></li>
+<li>Verify that your installation is working:<br><br><ul>
+<li><a href="http://localhost:5601" target="_blank">http://localhost:5601</a> – should display Kibana UI.</li>
+<li><a href="http://localhost:9200" target="_blank">http://localhost:9200</a> – should return status code 200.</li>
+</ul>
+</li>
+</ol>
+<p>Described below is another way to run Elasticsearch from within a container using Docker. This allows for a simpler, cleaner, (but <strong>temporary</strong>!!) installation of the Elastic stack which makes it practical for learning purposes.</p>
+<h2>Prerequisite for any installation of Elasticsearch</h2>
+<p><a href="https://elk-docker.readthedocs.io/#prerequisites" target="_blank"><br>As prerequisites</a>, Elasticsearch alone needs at least 2GB of RAM to run &gt;&gt; a minimum of 4GB RAM assigned to run in Docker!</p>
+<p>Negative :<br>This is the most frequent reason for your image of Elasticsearch failing to start since Elasticsearch version 5 was released.</p>
+<p>On Linux, use <code>sysctl vm.max_map_count</code> on the host to view the current value, and see Elasticsearch&#39;s documentation on virtual memory for guidance on how to change this value. Note that the limits must be changed on the host; they cannot be changed from within a container.</p>
+<pre><code>~$ sysctl vm.max_map_count 
+vm.max_map_count = 65530
+</code></pre>
+<p>On Linux, you can increase the limits by running the following command as <code>root</code>:</p>
+<pre><code>sysctl -w vm.max_map_count=262144
+</code></pre>
+<ul>
+<li>To set this value permanently, update the <code>vm.max_map_count</code> setting in <code>/etc/sysctl.conf</code></li>
+<li>To verify after rebooting, run <code>sysctl vm.max_map_count</code>.</li>
+</ul>
+<h2>Dockerized version of Elastisearch</h2>
+<p><a href="https://www.docker.com" target="_blank">Docker</a> is a tool designed to make it easier to create, deploy, and run applications by using containers. Containers allow a developer to package up an application with all of the parts it needs, such as libraries and other dependencies, and ship it all out as one package.<br>By doing so, thanks to the container, the developer can rest assured that the application will run on any other Linux machine regardless of any customized settings that machine might have that could differ from the machine used for writing and testing the code.</p>
+<p>This section describes how to use the <code>sebp/elk</code> Docker image, which provides a convenient centralised log server and log management web interface, by packaging Elasticsearch, Logstash, and Kibana, collectively known as ELK.</p>
+<p><a href="https://elk-docker.readthedocs.io/#prerequisites" target="_blank">the official documentation.</a></p>
+<h3>Installation from an official Docker image</h3>
+<p>This type of installation is recommended to get started, but you might be limited later on when you need to configure Elasticsearch and restart it to apply the changes. So if you need to change your configuration, you will have to (re-)build your Docker image locally.</p>
+<p>The RPM and Debian packages will configure this setting automatically. No further configuration is required.</p>
+<p>To pull the image from the Docker registry, open a shell prompt and enter:</p>
+<pre><code>docker pull sebp/elk
+</code></pre>
+<p>or this one if you haven&#39;t configured docker for your own user:</p>
+<pre><code>sudo docker pull sebp/elk
+</code></pre>
+<h3>Usage</h3>
+<p>Run a container from the image with the following command:</p>
+<pre><code>docker run -p 5601:5601 -p 9200:9200 -p 5044:5044 -it --name elk sebp/elk
+</code></pre>
+<p>Note - The whole ELK stack will be started. See the Starting services selectively section to selectively start part of the stack.</p>
+<p>This command publishes the following ports, which are needed for proper operation of the ELK stack:</p>
+<ul>
+<li><code>5601</code> (Kibana web interface): <a href="http://localhost:5601" target="_blank">http://localhost:5601</a></li>
+<li><code>9200</code> (Elasticsearch JSON interface): <a href="http://localhost:9200/" target="_blank">http://localhost:9200/</a></li>
+<li><code>5044</code> (Logstash Beats interface, receives logs from Beats such as Filebeat – see the Forwarding logs with Filebeat section).</li>
+</ul>
+<h3>Installation from a custom Docker image</h3>
+<p>This procedure is of course more cumbersome than pulling a pre-made docker image, but this will allow us to tweak the configuration of our Elasticsearch instance.</p>
+<p>Here we will:</p>
+<ul>
+<li>clone the an official Docker recipe to build the Elasticsearch image</li>
+<li>make changes to our configuration of Elasticsearch</li>
+<li>build the ELK containers from that image</li>
+<li>run the same way we would run the official Docker image</li>
+</ul>
+<ol type="1">
+<li><strong>Cloning the official image:</strong></li>
+</ol>
+<pre><code>/$ cd /tmp
+/tmp$ git clone https://github.com/spujadas/elk-docker.git
+</code></pre>
+<ol type="1">
+<li><strong>Make your changes to the configuration of Elasticsearch</strong></li>
+</ol>
+<p>...<br><strong>coming example to be copied from the next section...</strong></p>
+<ol type="1">
+<li><strong>Build and run the ELK containers from that image:</strong></li>
+</ol>
+<p><a href="https://github.com/Patechoc/docker_memo#delete-containers-from-a-specific-image" target="_blank">You may need to remove any former container with the image name ‘elk&#39;</a> (maybe not necessary <strong>to check!!!!</strong>)</p>
+<pre><code>/tmp$ cd elk-docker/
+/tmp/elk-docker$ docker-compose build elk
+/tmp/elk-docker$ docker-compose up
+</code></pre>
+<p>Go take a cup of coffee or 3 :coffee::coffee::coffee:, it might take 5-10 minutes!</p>
+<h2>Configuring Elasticsearch</h2>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/settings.html" target="_blank">Documentation</a></p>
+<p>Elasticsearch ships with good defaults and requires very little configuration. Most settings can be changed on a running cluster using the <em>Cluster Update Settings</em> API.</p>
+<p>The configuration files should contain settings which are node-specific (such as node.name and paths), or settings which a node requires in order to be able to join a cluster, such as <code>cluster.name</code> and <code>network.host</code>.</p>
+<p>You can configure:</p>
+<ul>
+<li>the Elasticsearch Java Virtual Machine (JVM) with <code>jvm.otions</code></li>
+<li>the Elasticsearch logging with <code>log4j2.properties</code></li>
+<li>Elasticsearh itself with <code>elasticsearch.yml</code></li>
+</ul>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/important-settings.html" target="_blank"><br>Important Elasticsearch configuration</a> are mostly settings which need to be considered <strong>before going into production</strong>:</p>
+<ul>
+<li>Path settings</li>
+<li>Cluster name</li>
+<li>Node name</li>
+<li>Network host</li>
+<li>Discovery settings</li>
+<li>Heap size</li>
+<li>Heap dump path</li>
+<li>GC logging</li>
+<li>Temp directory</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Download &amp; Ingest Data" duration="20">
+        <p>You have 2 options to index the data into Elasticsearch.</p>
+<ul>
+<li>You can either use the <strong>Elasticsearch </strong><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-snapshots.html" target="_blank"><strong>snapshot and restore API</strong></a> to directly <strong>restore a dataset index from a snapshot</strong>,</li>
+<li>or you can download the raw data from your favorite source and then use to <strong>process it and index the data</strong>.</li>
+</ul>
+<h2>Load data by restoring index snapshot</h2>
+<p><a href="https://github.com/elastic/examples/tree/master/Exploring%20Public%20Datasets/nyc_restaurants#option-1-load-data-by-restoring-index-snapshot" target="_blank"><br>Example with NYC restaurants</a></p>
+<p>Enter your <em>local Elasticsearch single-node cluster</em> by entering the Docker container running it:</p>
+<pre><code>$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                                                              NAMES
+bab86b772b05        sebp/elk            &#34;/usr/local/bin/star...&#34;   2 hours ago         Up 2 hours          5044/tcp, 5601/tcp, 9200/tcp, 9300/tcp                                             infallible_saha
+$ docker exec -i -t bab86b772b05 /bin/bash
+</code></pre>
+<p>Using the option to restore a snapshot involves 4 easy steps:</p>
+<ol type="1">
+<li>Download and uncompress the index snapshot .tar.gz file into a local folder</li>
+</ol>
+<pre><code># Create snapshots directory
+mkdir elastic_restaurants
+cd elastic_restaurants
+# Download index snapshot to elastic_restaurants directory
+wget http://download.elasticsearch.org/demos/nyc_restaurants/nyc_restaurants-5-4-3.tar.gz .
+# Uncompress snapshot file
+tar -xf nyc_restaurants-5-4-3.tar.gz
+</code></pre>
+<p>This adds a <code>nyc_restaurants</code> subfolder containing the index snapshots.</p>
+<ol type="1">
+<li>Add <code>nyc_restaurants</code> dir to the <code>path.repo</code> variable in <code>elasticsearch.yml</code> in the <code>&lt;path_to_elasticsearch_root_dir&gt;/config/</code> folder. See example <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-snapshots.html#_shared_file_system_repository" target="_blank">here</a>.. Restart elasticsearch for the change to take effect.</li>
+</ol>
+<p>With Docker, any changes to your Elasticseach&#39;s configuration will be lost after a restart of the Docker container.</p>
+<p>One solution is therefore to edit our Docker image before re-running it, then you can apply the changes mentioned above.</p>
+<p>Register a file system repository for the snapshot (change the value of the &#34;location&#34; parameter below to the location of your restaurants_backup directory)</p>
+<p>curl -H &#34;Content-Type: application/json&#34; -XPUT ‘http://localhost:9200/_snapshot/restaurants_backup&#39; -d ‘{</p>
+<pre><code>&#34;type&#34;: &#34;fs&#34;,
+&#34;settings&#34;: {
+    &#34;location&#34;: &#34;&lt;path_to_nyc_restaurants&gt;/&#34;,
+    &#34;compress&#34;: true,
+    &#34;max_snapshot_bytes_per_sec&#34;: &#34;1000mb&#34;,
+    &#34;max_restore_bytes_per_sec&#34;: &#34;1000mb&#34;
+}
+</code></pre>
+<p>}&#39;</p>
+<h2>Process and load data using Python script</h2>
+<p><a href="https://github.com/elastic/examples/tree/master/kibana_nyc_restaurants/Scripts-Python" target="_blank">example script</a></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="References" duration="1">
+        <ul>
+<li>Starting Elasticsearch (<a href="https://www.elastic.co/webinars/getting-started-elasticsearch?baymax=rtp&elektra=docs&storm=top-video&iesrc=ctr" target="_blank">video</a>)</li>
+<li>Introduction to Kibana (<a href="https://www.elastic.co/webinars/getting-started-kibana?baymax=rtp&elektra=docs&storm=top-video&iesrc=ctr" target="_blank">video</a>)</li>
+<li>Logstash Starter Guide (<a href="https://www.elastic.co/webinars/getting-started-logstash?baymax=rtp&elektra=docs&storm=top-video&iesrc=ctr" target="_blank">video</a>)</li>
+<li>Elastic Cloud (<a href="https://www.youtube.com/watch?v=FOTljFfIvh0&index=2&list=PLhLSfisesZIv16xhlT9VsS2BcqhQkT_n-" target="_blank">video series</a>)</li>
+<li><a href="https://bitbucket.org/civic-hackers-lab/elastic-online-training" target="_blank">Non-codelabs-friendly old tutorial</a></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-49880327-14', 'auto');
+
+    (function() {
+      var gaCodelab = 'UA-72074624-2';
+      if (gaCodelab) {
+        ga('create', gaCodelab, 'auto', {name: 'codelab'});
+      }
+
+      var gaView;
+      var parts = location.search.substring(1).split('&');
+      for (var i = 0; i < parts.length; i++) {
+        var param = parts[i].split('=');
+        if (param[0] === 'viewga') {
+          gaView = param[1];
+          break;
+        }
+      }
+      if (gaView && gaView !== gaCodelab) {
+        ga('create', gaView, 'auto', {name: 'view'});
+      }
+    })();
+  </script>
+
+</body>
+</html>
