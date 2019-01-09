@@ -49,11 +49,11 @@ Looking for the official Elastic training and certifications, you should check t
 
 ### Elastic Engineer I
 
-https://training.elastic.co/instructor-led-training/ElasticsearchEngineerI-Virtual
+[https://training.elastic.co/instructor-led-training/ElasticsearchEngineerI-Virtual](https://training.elastic.co/instructor-led-training/ElasticsearchEngineerI-Virtual)
 
 ### Elastic Engineer II
 
-https://training.elastic.co/instructor-led-training/ElasticsearchEngineerII-Virtual
+[https://training.elastic.co/instructor-led-training/ElasticsearchEngineerII-Virtual](https://training.elastic.co/instructor-led-training/ElasticsearchEngineerII-Virtual)
 
 Negative
 : The training are often virtual courses you can follow from anywhere, but they are live, so you need to register in advance and plan 4 hours a day for 4 days in a row.
@@ -101,7 +101,7 @@ sysctl -w vm.max_map_count=262144
 * To verify after rebooting, run `sysctl vm.max_map_count`.
 
 
-### Dockerized version of Elastisearch
+### Dockerized version of Elasticsearch
 
 [Docker](https://www.docker.com) is a tool designed to make it easier to create, deploy, and run applications by using containers. Containers allow a developer to package up an application with all of the parts it needs, such as libraries and other dependencies, and ship it all out as one package.
 By doing so, thanks to the container, the developer can rest assured that the application will run on any other Linux machine regardless of any customized settings that machine might have that could differ from the machine used for writing and testing the code.
@@ -138,7 +138,7 @@ Run a container from the image with the following command:
 docker run -p 5601:5601 -p 9200:9200 -p 5044:5044 -it --name elk sebp/elk
 ```
 
-Note - The whole ELK stack will be started. See the Starting services selectively section to selectively start part of the stack.
+Note - The whole ELK stack will be started. See the _Starting services selectively_ section to selectively start part of the stack.
 
 This command publishes the following ports, which are needed for proper operation of the ELK stack:
 
@@ -158,21 +158,19 @@ Here we will:
 * build the ELK containers from that image
 * run the same way we would run the official Docker image
 
-1. **Cloning the official image:**
+**>> Cloning the official image:**
 
 ```shell
 /$ cd /tmp
 /tmp$ git clone https://github.com/spujadas/elk-docker.git
 ```
 
-2. **Make your changes to the configuration of Elasticsearch**
+**>> Make your changes to the configuration of Elasticsearch:**
 
 ...
 **coming example to be copied from the next section...**
 
-
-
-3. **Build and run the ELK containers from that image:**
+**>> Build and run the ELK containers from that image:**
 
 [You may need to remove any former container with the image name 'elk'](https://github.com/Patechoc/docker_memo#delete-containers-from-a-specific-image) (maybe not necessary **to check!!!!**)
 
@@ -218,7 +216,7 @@ Duration: 20:00
 You have 2 options to index the data into Elasticsearch.
 
 * You can either use the **Elasticsearch [snapshot and restore API](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-snapshots.html)** to directly **restore a dataset index from a snapshot**,
-* or you can download the raw data from your favorite source and then use to **process it and index the data**.
+* or you can download the raw data from your favorite source and then **process it to index the data**.
 
 ### Load data by restoring index snapshot
 
@@ -269,10 +267,10 @@ curl -H "Content-Type: application/json" -XPUT 'http://localhost:9200/_snapshot/
 }'
 
 
-### Process and load data using Python script
+### Process and load data using a Python script
 
 
-[example script](https://github.com/elastic/examples/tree/master/kibana_nyc_restaurants/Scripts-Python) 
+[example script](https://github.com/elastic/examples/tree/master/Exploring%20Public%20Datasets/nyc_restaurants/scripts) 
 
 
 

@@ -51,9 +51,9 @@
 <li>How to <a href="https://training.elastic.co/WelcomeElasticTrainingSubscription#learning-portal" target="_blank">register</a> for a course?</li>
 </ul>
 <h2>Elastic Engineer I</h2>
-<p>https://training.elastic.co/instructor-led-training/ElasticsearchEngineerI-Virtual</p>
+<p><a href="https://training.elastic.co/instructor-led-training/ElasticsearchEngineerI-Virtual" target="_blank">https://training.elastic.co/instructor-led-training/ElasticsearchEngineerI-Virtual</a></p>
 <h2>Elastic Engineer II</h2>
-<p>https://training.elastic.co/instructor-led-training/ElasticsearchEngineerII-Virtual</p>
+<p><a href="https://training.elastic.co/instructor-led-training/ElasticsearchEngineerII-Virtual" target="_blank">https://training.elastic.co/instructor-led-training/ElasticsearchEngineerII-Virtual</a></p>
 <aside class="warning"><p>The training are often virtual courses you can follow from anywhere, but they are live, so you need to register in advance and plan 4 hours a day for 4 days in a row.</p>
 </aside>
 
@@ -89,7 +89,7 @@ vm.max_map_count = 65530
 <li>To set this value permanently, update the <code>vm.max_map_count</code> setting in <code>/etc/sysctl.conf</code></li>
 <li>To verify after rebooting, run <code>sysctl vm.max_map_count</code>.</li>
 </ul>
-<h2>Dockerized version of Elastisearch</h2>
+<h2>Dockerized version of Elasticsearch</h2>
 <p><a href="https://www.docker.com" target="_blank">Docker</a> is a tool designed to make it easier to create, deploy, and run applications by using containers. Containers allow a developer to package up an application with all of the parts it needs, such as libraries and other dependencies, and ship it all out as one package.<br>By doing so, thanks to the container, the developer can rest assured that the application will run on any other Linux machine regardless of any customized settings that machine might have that could differ from the machine used for writing and testing the code.</p>
 <p>This section describes how to use the <code>sebp/elk</code> Docker image, which provides a convenient centralised log server and log management web interface, by packaging Elasticsearch, Logstash, and Kibana, collectively known as ELK.</p>
 <p><a href="https://elk-docker.readthedocs.io/#prerequisites" target="_blank">the official documentation.</a></p>
@@ -106,7 +106,7 @@ vm.max_map_count = 65530
 <p>Run a container from the image with the following command:</p>
 <pre><code>docker run -p 5601:5601 -p 9200:9200 -p 5044:5044 -it --name elk sebp/elk
 </code></pre>
-<p>Note - The whole ELK stack will be started. See the Starting services selectively section to selectively start part of the stack.</p>
+<p>Note - The whole ELK stack will be started. See the <em>Starting services selectively</em> section to selectively start part of the stack.</p>
 <p>This command publishes the following ports, which are needed for proper operation of the ELK stack:</p>
 <ul>
 <li><code>5601</code> (Kibana web interface): <a href="http://localhost:5601" target="_blank">http://localhost:5601</a></li>
@@ -122,19 +122,13 @@ vm.max_map_count = 65530
 <li>build the ELK containers from that image</li>
 <li>run the same way we would run the official Docker image</li>
 </ul>
-<ol type="1">
-<li><strong>Cloning the official image:</strong></li>
-</ol>
+<p><strong>&gt;&gt; Cloning the official image:</strong></p>
 <pre><code>/$ cd /tmp
 /tmp$ git clone https://github.com/spujadas/elk-docker.git
 </code></pre>
-<ol type="1">
-<li><strong>Make your changes to the configuration of Elasticsearch</strong></li>
-</ol>
+<p><strong>&gt;&gt; Make your changes to the configuration of Elasticsearch:</strong></p>
 <p>...<br><strong>coming example to be copied from the next section...</strong></p>
-<ol type="1">
-<li><strong>Build and run the ELK containers from that image:</strong></li>
-</ol>
+<p><strong>&gt;&gt; Build and run the ELK containers from that image:</strong></p>
 <p><a href="https://github.com/Patechoc/docker_memo#delete-containers-from-a-specific-image" target="_blank">You may need to remove any former container with the image name ‘elk&#39;</a> (maybe not necessary <strong>to check!!!!</strong>)</p>
 <pre><code>/tmp$ cd elk-docker/
 /tmp/elk-docker$ docker-compose build elk
@@ -171,7 +165,7 @@ vm.max_map_count = 65530
         <p>You have 2 options to index the data into Elasticsearch.</p>
 <ul>
 <li>You can either use the <strong>Elasticsearch </strong><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-snapshots.html" target="_blank"><strong>snapshot and restore API</strong></a> to directly <strong>restore a dataset index from a snapshot</strong>,</li>
-<li>or you can download the raw data from your favorite source and then use to <strong>process it and index the data</strong>.</li>
+<li>or you can download the raw data from your favorite source and then <strong>process it to index the data</strong>.</li>
 </ul>
 <h2>Load data by restoring index snapshot</h2>
 <p><a href="https://github.com/elastic/examples/tree/master/Exploring%20Public%20Datasets/nyc_restaurants#option-1-load-data-by-restoring-index-snapshot" target="_blank"><br>Example with NYC restaurants</a></p>
@@ -210,8 +204,8 @@ tar -xf nyc_restaurants-5-4-3.tar.gz
 }
 </code></pre>
 <p>}&#39;</p>
-<h2>Process and load data using Python script</h2>
-<p><a href="https://github.com/elastic/examples/tree/master/kibana_nyc_restaurants/Scripts-Python" target="_blank">example script</a></p>
+<h2>Process and load data using a Python script</h2>
+<p><a href="https://github.com/elastic/examples/tree/master/Exploring%20Public%20Datasets/nyc_restaurants/scripts" target="_blank">example script</a></p>
 
 
       </google-codelab-step>
