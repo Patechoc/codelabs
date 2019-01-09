@@ -14,7 +14,7 @@ Duration: 5:00
 
 [VueJS](https://vuejs.org/) is one of the 3 most used modern web development framework together with [React](https://reactjs.org) and [Angular](https://angular.io).
 
-Despite that the latter maintained respectively by the tech giants _Facebook_ and _Google_, Vue seems highly attractive to many experienced web developers for its design, its flexibility and ease of development. That makes it very appealing for a newbie like me who doesn't know where to start, but who trusts the ones (I believe) who know what they are talking about, like any other hyper-social animal would do! :dolphin: :woman-gesturing-ok: :man-gesturing-ok:
+Despite that the latter maintained respectively by the tech giants _Facebook_ and _Google_, Vue seems highly attractive to many experienced web developers for its design, its flexibility and ease of development. That makes it very appealing for a newbie like me who doesn't know where to start, but who trusts the ones (I believe) who know what they are talking about, like any other hyper-social species would do! ;)
 
 This tutorial is about **building a web app using VueJS** and **understanding the different components and the build process** to achieve it.
 It is the first tutorial in a series that should lead to more advanced features of modern webapps, possibly involving other frameworks for front-end and backend (e.g. React, Angular, Python/Flask).
