@@ -1,0 +1,625 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Machine Learning Model Explainability</title>
+  <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../elements/codelab.html">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <style is="custom-style">
+    body {
+      font-family: "Roboto",sans-serif;
+      background: var(--google-codelab-background, #F8F9FA);
+    }
+  </style>
+  
+</head>
+<body unresolved class="fullbleed">
+
+  <google-codelab title="Machine Learning Model Explainability"
+                  environment="web"
+                  feedback-link="github.com/Patechoc/codelabs">
+    
+      <google-codelab-step label="Overview of the tutorial" duration="2">
+        <p>This tutorial is just a summary/partial copy of what is provided in more details by Dan Becker on <a href="https://www.kaggle.com/learn/machine-learning-explainability" target="_blank">Kaggle</a> to help me come back faster to the pieces I want to re-use.</p>
+<p>Instead of going through these notes first, I would recommend going through the <a href="https://www.kaggle.com/learn/machine-learning-explainability" target="_blank">original tutorials</a>. There, pre-made <em>Kaggle kernels</em> (~ Jupyter notebooks), not copied here, allow you to run the techniques you have just learned in <a href="https://github.com/Kaggle/learntools" target="_blank">a fun way through Q&amp;A</a>. Highly recommended!</p>
+<p><strong>No prerequesites</strong>: Kaggle kernels runs perfectly in the browser.</p>
+<p>Dan Becker, Head of <em>Kaggle Learn</em> is <a href="https://www.kaggle.com/learn/machine-learning-explainability" target="_blank">teaching us</a> how to extract insights from a Machine Learning (ML) model, sometimes considered as a &#34;black box&#34;.</p>
+<p>Are most ML models really &#34;black boxes&#34;?</p>
+<p>His short course aims at teaching us techniques to explain the findings from sophisticated machine learning models.</p>
+<ul>
+<li>What are the most important features of a model? (Permutation Importance)</li>
+<li>How a feature is affecting predictions? (Partial Dependence)</li>
+<li>How the model works for an individual prediction? (SHAP Values)</li>
+<li>How each feature affect/bias the model&#39;s predictions in a big-picture sense (what is its typical effect when considered over a large number of possible predictions?).</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Use Cases for Model Insights" duration="1">
+        <p>Why and when do you need insights in Machine Learning?</p>
+<ul>
+<li>Debugging models (add/remove features, tune hyperparameters)</li>
+<li>Building Trust (by providing information about the final model prediction)</li>
+<li>Informing feature engineering</li>
+<li>Informing human decision-making</li>
+<li>Directing future data collection (<strong>not covered yet</strong>)</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="How to measure Feature Importance: Permutation Importance" duration="20">
+        <p><strong>Feature Importance</strong>: What features have the biggest impact on predictions?</p>
+<p>Compared to most other approaches, <a href="https://www.kaggle.com/dansbecker/permutation-importance" target="_blank">Permutation Importance</a> is:</p>
+<ul>
+<li>Fast to calculate</li>
+<li>Widely used and understood</li>
+<li>Consistent with properties we would want a feature importance measure to have</li>
+</ul>
+<h2>The process</h2>
+<ol type="1">
+<li>Get a trained model</li>
+<li>Shuffle the values in a single column, make predictions using the resulting dataset. Use these predictions and the true target values to calculate how much the loss function suffered from shuffling. That performance deterioration measures the importance of the variable you just shuffled.</li>
+<li>Return the data to the original order (undoing the shuffle from step 2.) Now repeat step 2 with the next column in the dataset, until you have calculated the importance of each column.</li>
+</ol>
+<p><img src="img/593dd887aeecdabd.png"></p>
+<h2>Code snippet</h2>
+<pre><code>import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+
+data = pd.read_csv(&#39;../input/fifa-2018-match-statistics/FIFA 2018 Statistics.csv&#39;)
+y = (data[&#39;Man of the Match&#39;] == &#34;Yes&#34;)  # Convert from string &#34;Yes&#34;/&#34;No&#34; to binary
+feature_names = [i for i in data.columns if data[i].dtype in [np.int64]]
+X = data[feature_names]
+train_X, val_X, train_y, val_y = train_test_split(X, y, random_state=1)
+my_model = RandomForestClassifier(random_state=0).fit(train_X, train_y)
+
+
+# Here is how to calculate and show importances with the eli5 library:
+import eli5
+from eli5.sklearn import PermutationImportance
+
+perm = PermutationImportance(my_model, random_state=1).fit(val_X, val_y)
+eli5.show_weights(perm, feature_names = val_X.columns.tolist())
+
+</code></pre>
+<p><img src="img/97088848a083038f.png"></p>
+<h2>Exercise: Permutation Importance</h2>
+<p><a href="https://www.kaggle.com/patechoc/exercise-permutation-importance/edit" target="_blank">Link to the exercise.</a></p>
+<p>In this exercise, we learn:</p>
+<ul>
+<li>to reflect on the usefulness of each variable you have as a start beforetrying to  predict taxi fares in NYC.</li>
+<li>to <strong>visualize the feature importance (feature&#39;s weights) of the first model</strong> using <strong>Permutation Importance</strong> using <a href="https://eli5.readthedocs.io/en/latest/" target="_blank"><br>Eli5</a>, a Python library which allows to visualize and debug various Machine Learning models using unified API. (e.g. latitude seems to have more importance than longitude)</li>
+<li>to help you formulate hypothesis based on the insight you got about your model. (e.g. unbalanced distance between longitude/latitude distances!?, different pricing for different part of NYC!? ...)</li>
+<li>to check some of these hypothesis by adding features that might disentangle hypothesis (e.g to disentangle the effect of being in certain parts of the city from the effect of the total distance traveled: create features for longitudinal &amp; latitudinal distances).</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="How a feature affects predictions: Partial Plots" duration="50">
+        <p><a href="https://www.kaggle.com/dansbecker/partial-plots" target="_blank">Partial Dependence Plots</a></p>
+<p>While <strong>Feature Importance</strong> shows <strong>what variables</strong> most affect predictions,</p>
+<p><strong>Partial Dependence</strong> plots show <strong>how</strong> a feature affects predictions.</p>
+<p>This is useful to answer questions like:</p>
+<ul>
+<li>Controlling for all other house features, what impact do longitude and latitude have on home prices? To restate this, how would similarly sized houses be priced in different areas?</li>
+<li>Are predicted health differences between two groups due to differences in their diets, or due to some other factor?</li>
+<li>How quick NYC taxi prices are decreasing with distances?</li>
+</ul>
+<h2>The process</h2>
+<ol type="1">
+<li>Like permutation importance, partial dependence plots are calculated after a model has been fit. The model is fit on real data that has not been artificially manipulated in any way.</li>
+<li>To see how partial plots separate out the effect of each feature, we start by considering a single row of data. (e.g. that row of data might represent a team that had the ball 50% of the time, made 100 passes, took 10 shots and scored 1 goal.)</li>
+<li>We will use the fitted model to predict our outcome (e.g. here, the probability their player won &#34;man of the game&#34;), <strong>but we repeatedly alter the value for one variable to make a series of predictions</strong> (e.g. varying the fraction of the time the team had the ball).</li>
+<li>We trace out predicted outcomes (on the vertical axis) as we move from small values to large values of that feature (on the horizontal axis).</li>
+</ol>
+<p>In the description above, we used only a single row of data. Interactions between features may cause the plot for a single row to be atypical.</p>
+<ol type="1">
+<li>So, we repeat that mental experiment with multiple rows from the original dataset, and we plot the average predicted outcome on the vertical axis.</li>
+</ol>
+<h2>Code snippet</h2>
+<p>Model building:</p>
+<pre><code>import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier
+
+data = pd.read_csv(&#39;../input/fifa-2018-match-statistics/FIFA 2018 Statistics.csv&#39;)
+y = (data[&#39;Man of the Match&#39;] == &#34;Yes&#34;)  # Convert from string &#34;Yes&#34;/&#34;No&#34; to binary
+feature_names = [i for i in data.columns if data[i].dtype in [np.int64]]
+X = data[feature_names]
+train_X, val_X, train_y, val_y = train_test_split(X, y, random_state=1)
+tree_model = DecisionTreeClassifier(random_state=0, max_depth=5, min_samples_split=5).fit(train_X, train_y)
+</code></pre>
+<p>Representation of the Decision Tree used in this example:</p>
+<pre><code>from sklearn import tree
+import graphviz
+
+tree_graph = tree.export_graphviz(tree_model, out_file=None, feature_names=feature_names)
+graphviz.Source(tree_graph)
+</code></pre>
+<p><img alt="Decision Tree representation" src="img/d2086c36a872fed8.png"></p>
+<p>As guidance to read the tree:</p>
+<ul>
+<li>Leaves with children show their splitting criterion on the top</li>
+<li>The pair of values at the bottom show the count of True values and False values for the target respectively, of data points in that node of the tree.</li>
+</ul>
+<p>Here is the code to create the Partial Dependence Plot using the <a href="https://pdpbox.readthedocs.io" target="_blank">PDPBox library</a> (the Python <strong>P</strong>artial <strong>D</strong>ependence <strong>P</strong>lot tool<strong>Box</strong>).</p>
+<pre><code>from matplotlib import pyplot as plt
+from pdpbox import pdp, get_dataset, info_plots
+
+# Create the data that we will plot
+pdp_goals = pdp.pdp_isolate(model=tree_model, dataset=val_X, model_features=feature_names, feature=&#39;Goal Scored&#39;)
+
+# plot it
+pdp.pdp_plot(pdp_goals, &#39;Goal Scored&#39;)
+plt.show()
+</code></pre>
+<p><img alt="Results Partial Dependence Plot for **Goal Scored**" src="img/cd140835249d274.png"></p>
+<p>A few items are worth pointing out as you interpret this plot:</p>
+<ul>
+<li>The <strong>y-axis</strong> is interpreted as <strong>change in the prediction</strong> from what it would be predicted at the baseline or leftmost value.</li>
+<li>A blue shaded area indicates level of confidence.</li>
+</ul>
+<p>From this particular graph, we see that scoring a goal substantially increases your chances of winning &#34;Player of The Game.&#34; But extra goals beyond that appear to have little impact on predictions.</p>
+<p>Here is another example plot:</p>
+<pre><code>feature_to_plot = &#39;Distance Covered (Kms)&#39;
+pdp_dist = pdp.pdp_isolate(model=tree_model, dataset=val_X, model_features=feature_names, feature=feature_to_plot)
+
+pdp.pdp_plot(pdp_dist, feature_to_plot)
+plt.show()
+</code></pre>
+<p><img alt="Results Partial Dependence Plot for **Distance covered**" src="img/998750d59e4c588e.png"></p>
+<p>This graph seems too simple to represent reality. But that&#39;s because the model is so simple. You should be able to see from the decision tree above that this is representing exactly the model&#39;s structure.</p>
+<p>You can easily compare the structure or implications of different models. Here is the same plot with a Random Forest model.</p>
+<pre><code># Build Random Forest model
+rf_model = RandomForestClassifier(random_state=0).fit(train_X, train_y)
+
+pdp_dist = pdp.pdp_isolate(model=rf_model, dataset=val_X, model_features=feature_names, feature=feature_to_plot)
+
+pdp.pdp_plot(pdp_dist, feature_to_plot)
+plt.show()
+</code></pre>
+<p><img src="img/881552ea6964e19.png"></p>
+<p>This model thinks you are more likely to win &#34;Player of The Game&#34; if your players run a total of 100km over the course of the game. Though running much more causes lower predictions.</p>
+<p>In general, the smooth shape of this curve seems more plausible than the step function from the simpler Decision Tree model. Though this dataset is small enough that we would be careful in how we interpret any model.</p>
+<h2>2D Partial Dependence Plots (comparing 2 features at once)</h2>
+<p>If you are curious about interactions between features, 2D partial dependence plots are also useful. An example may clarify what this.</p>
+<p>We will again use the Decision Tree model for this graph. It will create an extremely simple plot, but you should be able to match what you see in the plot to the tree itself.</p>
+<pre><code># Similar to previous PDP plot except we use pdp_interact instead of pdp_isolate and pdp_interact_plot instead of pdp_isolate_plot
+features_to_plot = [&#39;Goal Scored&#39;, &#39;Distance Covered (Kms)&#39;]
+inter1  =  pdp.pdp_interact(model=tree_model, dataset=val_X, model_features=feature_names, features=features_to_plot)
+
+pdp.pdp_interact_plot(pdp_interact_out=inter1, feature_names=features_to_plot, plot_type=&#39;contour&#39;)
+plt.show()
+</code></pre>
+<p><img src="img/79e9ad077db1be0c.png"></p>
+<p>This graph shows predictions for any combination of Goals Scored and Distance covered.</p>
+<p>For example, we see the highest predictions is obtained:</p>
+<ul>
+<li>when a team scores at least 1 goal, and they run a total distance close to 100km.</li>
+<li>If they score 0 goals, distance covered doesn&#39;t matter.</li>
+<li>distance can also impact predictions if they score goals. We can&#39;t see it from this simple Decision Tree, but we should see it when using Random Forest.</li>
+</ul>
+<h2>Exercise: Partial Plots (vs Permutation Importance)</h2>
+<p><a href="https://www.kaggle.com/patechoc/exercise-partial-plots/edit" target="_blank">Link to the exercise.</a></p>
+<p>In this exercise, we learn to create partial dependence plots:</p>
+<ul>
+<li>on a real case (taxi fare in NYC)</li>
+<li>and on fictitious case that help compare PDP and Permutation Importance.</li>
+</ul>
+<p><img src="img/a59951632d5bf0cb.png"></p>
+<ul>
+<li>We have a sense from the permutation importance results that distance is the most important determinant of taxi fare. This model didn&#39;t include distance measures (like absolute change in latitude or longitude) as features, so coordinate features (like pickup_longitude) capture the effect of distance. Being picked up near the center of the longitude values lowers predicted fares on average, because it means shorter trips (on average).</li>
+<li>For the same reason, we see the general U-shape in all our partial dependence plots.</li>
+</ul>
+<p><img src="img/76ab7a58b2cf2b75.png"></p>
+<ul>
+<li>You should expect the plot to have contours running along a diagonal. We see that to some extent, though there are interesting caveats.</li>
+<li>We expect the diagonal contours because these are pairs of values where the pickup and dropoff longitudes are nearby, indicating shorter trips (controlling for other factors).</li>
+<li>As you get further from the central diagonal, we should expect prices to increase as the distances between the pickup and dropoff longitudes also increase.</li>
+<li>The surprising feature is that prices increase as you go further to the upper-right of this graph, even staying near that 45-degree line.</li>
+<li>This could be worth further investigation, though the effect of moving to the upper right of this graph is small compared to moving away from that 45-degree line.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Understand individual predictions: SHAP Values" duration="40">
+        <p>You&#39;ve seen (and used) techniques to extract general insights from a machine learning model (Permutation Importance, Partial Dependence Plots). <strong>What if you want to break down how the model works for an individual prediction?</strong></p>
+<p><strong>SHAP Values</strong> (an acronym from <strong>SHapley Additive exPlanations</strong>) break down a prediction to show the impact of each feature on a trained model.</p>
+<p><img src="img/1957bff7cb2cb361.png"></p>
+<p>Where could you use this?</p>
+<ul>
+<li>A model says a bank shouldn&#39;t loan someone money, and the bank is legally required to explain the basis for each loan rejection</li>
+<li>A healthcare provider wants to identify what factors are driving each patient&#39;s risk of some disease so they can directly address those risk factors with targeted health interventions</li>
+</ul>
+<p><a href="https://www.kaggle.com/dansbecker/shap-values" target="_blank">Use SHAP Values to explain individual predictions in this lesson</a>. In the next lesson, you&#39;ll see how these can be aggregated into powerful model-level insights.</p>
+<h2>The process</h2>
+<p>SHAP values interpret the impact of having a certain value for a given feature in comparison to the prediction we&#39;d make if that feature took some baseline value.</p>
+<p>In previous sections, we predicted whether a team would have a player win the &#34;Man of the Game&#34; award.</p>
+<p>We could ask:</p>
+<ul>
+<li>How much was a prediction driven by the fact that the team scored 3 goals?</li>
+</ul>
+<p>But it&#39;s easier to give a concrete, numeric answer if we restate this as:</p>
+<ul>
+<li>How much was a prediction driven by the fact that the team scored 3 goals, instead of some baseline number of goals?</li>
+</ul>
+<p>Of course, each team has many features. So if we answer this question for number of goals, we could repeat the process for all other features.</p>
+<p>SHAP values do this in a way that guarantees a nice property. When we make a prediction:</p>
+<p><code>sum(SHAP values for all features) = pred_for_team - pred_for_baseline_values</code></p>
+<p>That is, the SHAP values of all features sum up to explain why my prediction was different from the baseline. This allows us to decompose a prediction in a graph like this:</p>
+<p><img src="img/b9d8f3d834b70d46.png"></p>
+<p>How do you interpret this?</p>
+<ul>
+<li>We predicted 0.7, whereas the base_value is 0.4979.</li>
+<li>Feature values causing increased predictions are in pink, and their visual size shows the magnitude of the feature&#39;s effect.</li>
+<li>Feature values decreasing the prediction are in blue.</li>
+<li>The biggest impact comes from Goal Scored being 2. Though the ball possession value has a meaningful effect decreasing the prediction.</li>
+<li>If you subtract the length of the blue bars from the length of the pink bars, it equals the distance from the base value to the output.</li>
+</ul>
+<p>There is some complexity to the technique, to ensure that the baseline plus the sum of individual effects adds up to the prediction (which isn&#39;t as straightforward as it sounds.) We won&#39;t go into that detail here, since it isn&#39;t critical for using the technique. <a href="https://towardsdatascience.com/one-feature-attribution-method-to-supposedly-rule-them-all-shapley-values-f3e04534983d" target="_blank">This blog post</a> has a longer theoretical explanation.</p>
+<h2>Code snippet</h2>
+<p>We calculate SHAP values using the wonderful <a href="https://github.com/slundberg/shap" target="_blank">Shap</a> library.</p>
+<p>For this example, we&#39;ll reuse the model you&#39;ve already seen with the Soccer data.</p>
+<pre><code>import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+
+data = pd.read_csv(&#39;../input/fifa-2018-match-statistics/FIFA 2018 Statistics.csv&#39;)
+y = (data[&#39;Man of the Match&#39;] == &#34;Yes&#34;)  # Convert from string &#34;Yes&#34;/&#34;No&#34; to binary
+feature_names = [i for i in data.columns if data[i].dtype in [np.int64, np.int64]]
+X = data[feature_names]
+train_X, val_X, train_y, val_y = train_test_split(X, y, random_state=1)
+my_model = RandomForestClassifier(random_state=0).fit(train_X, train_y)
+</code></pre>
+<p>We will look at SHAP values for a single row of the dataset (we arbitrarily chose row 5). For context, we&#39;ll look at the raw predictions before looking at the SHAP values</p>
+<pre><code>row_to_show = 5
+data_for_prediction = val_X.iloc[row_to_show]  # use 1 row of data here. Could use multiple rows if desired
+data_for_prediction_array = data_for_prediction.values.reshape(1, -1)
+
+my_model.predict_proba(data_for_prediction_array)
+# array([[0.3, 0.7]])
+</code></pre>
+<p>The team is 70% likely to have a player win the award.</p>
+<p>Now, we&#39;ll move onto the code to get SHAP values for that single prediction.</p>
+<pre><code>import shap  # package used to calculate Shap values
+
+# Create object that can calculate shap values
+explainer = shap.TreeExplainer(my_model)
+
+# Calculate Shap values
+shap_values = explainer.shap_values(data_for_prediction)
+</code></pre>
+<p>The shap_values object above is a list with two arrays:</p>
+<ul>
+<li>The first array is the SHAP values for a negative outcome (don&#39;t win the award),</li>
+<li>and the second array is the list of SHAP values for the positive outcome (wins the award). We typically think about predictions in terms of the prediction of a positive outcome, so we&#39;ll pull out Shap values for positive outcomes (pulling out shap_values[1].)</li>
+</ul>
+<p>It&#39;s cumbersome to review raw arrays, but the shap package has a nice way to visualize the results.</p>
+<pre><code>shap.initjs()
+shap.force_plot(explainer.expected_value[1], shap_values[1], data_for_prediction)
+</code></pre>
+<p>which generates the image you have seen already:</p>
+<p><img src="img/b9d8f3d834b70d46.png"></p>
+<p>If you look carefully at the code where we created the SHAP values, you&#39;ll notice we reference Trees in <code>shap.TreeExplainer(my_model)</code>. But the SHAP package has explainers for every type of model.</p>
+<ul>
+<li><code>shap.DeepExplainer</code> works with Deep Learning models.</li>
+<li><code>shap.KernelExplainer</code> works with all models, though it is slower than other Explainers and it offers an approximation rather than exact Shap values.</li>
+</ul>
+<p>Here is an example using KernelExplainer to get similar results. The results aren&#39;t identical because kernelExplainer gives an approximate result. But the results tell the same story.</p>
+<pre><code># use Kernel SHAP to explain test set predictions
+k_explainer = shap.KernelExplainer(my_model.predict_proba, train_X)
+k_shap_values = k_explainer.shap_values(data_for_prediction)
+shap.force_plot(k_explainer.expected_value[1], k_shap_values[1], data_for_prediction)
+</code></pre>
+<h2>Exercise: SHAP Values (from succint insights to more info per prediction)</h2>
+<p><a href="https://www.kaggle.com/patechoc/exercise-shap-values/edit" target="_blank">Link to the exercise.</a></p>
+<p>In this exercise, we learn:</p>
+<ul>
+<li>to apply all the techniques learned until now to get insights from a Machine Learning model on a concrete use case: <em>To identify patients with high risk of being readmitted, to avoid health complications</em>.<ul>
+<li>Measuring the performance of your model on validation data would be useful<ul>
+<li>https://machinelearningmastery.com/difference-test-validation-datasets/</li>
+<li>https://www.analyticsvidhya.com/blog/2018/05/improve-model-performance-cross-validation-in-python-r/</li>
+</ul>
+</li>
+<li>Use Permutation Importance as a succint model summary</li>
+<li>Use Partial Dependence Plot to show how the most important feature affects the model&#39;s predictions.</li>
+<li>Use SHAP Values for One Prediction to create a visualization showing what feature with every minuscule impact on the readmission risk.</li>
+</ul>
+</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Advanced Uses of SHAP Values" duration="50">
+        <p>Aggregate SHAP values for even more detailed model insights</p>
+<ul>
+<li><strong>What the model has learned?</strong> is something <strong>permutation importance</strong> and <strong>partial dependence plots</strong> can give an overview of.</li>
+<li>then <strong>break down the components of individual predictions</strong> using <strong>SHAP values</strong>.</li>
+<li>Now let&#39;s try to <strong>give more detailed alternatives to permutation importance and partial dependence plots</strong>, by <strong>aggregating many SHAP values</strong>, some <a href="https://www.kaggle.com/dansbecker/advanced-uses-of-shap-values" target="_blank">advanced uses of SHAP Values</a>.</li>
+</ul>
+<p>Recap: Shap values show how much a given feature changed our prediction (compared to if we made that prediction at some baseline value of that feature).</p>
+<p>In addition to this nice breakdown for each prediction, the <a href="https://github.com/slundberg/shap" target="_blank">Shap library</a> offers great visualizations of groups of Shap values. We will focus on two of these visualizations. These visualizations have conceptual similarities to permutation importance and partial dependence plots. So multiple threads from the previous exercises will come together here.</p>
+<h2>SHAP Summary Plots</h2>
+<p><strong>SHAP summary plot</strong> is a birds-eye view of feature importance and what is driving it.</p>
+<p><img alt="SHAP_summary_plot_example" src="img/8dc980c035c62b14.png"></p>
+<p>This plot is made of many dots. Each dot has <strong>three characteristics</strong>:</p>
+<ul>
+<li><strong>Vertical location</strong> shows <strong>what feature it is depicting</strong></li>
+<li><strong>Color</strong> shows whether that feature was <strong>high or low for that row of the dataset</strong></li>
+<li><strong>Horizontal location</strong> shows whether the effect of <strong>that value caused a higher or lower prediction</strong>.</li>
+</ul>
+<p>For example, the point in the upper left was for a team that scored few goals, reducing the prediction by 0.25 from the baseline.</p>
+<p>Some things you should be able to easily pick out:</p>
+<ul>
+<li>The model ignored the <code>Red</code> and <code>Yellow &amp; Red</code> features.</li>
+<li>Usually <strong>Yellow Card</strong> doesn&#39;t affect the prediction, but there is an extreme case where a high value caused a much lower prediction.</li>
+<li>High values of <code>Goal scored</code> caused higher predictions, and low values caused low predictions.</li>
+</ul>
+<p>If you look for long enough, there&#39;s a lot of information in this graph. You&#39;ll face some questions to test how you read them in the exercise.</p>
+<p>We get the SHAP values for all validation data with the following code. It is short enough that we explain it in the comments.</p>
+<pre><code>import shap  # package used to calculate Shap values
+
+# Create object that can calculate shap values
+explainer = shap.TreeExplainer(my_model)
+
+# calculate shap values. This is what we will plot.
+# Calculate shap_values for all of val_X rather than a single row, to have more data for plot.
+shap_values = explainer.shap_values(val_X)
+
+# Make plot. Index of [1] is explained in text below.
+shap.summary_plot(shap_values[1], val_X)
+</code></pre>
+<p>The code isn&#39;t too complex. But there are a few caveats.</p>
+<ul>
+<li>When plotting, we call <code>shap_values[1]</code>. For classification problems, there is a separate array of SHAP values for each possible outcome. In this case, we index in to get the SHAP values for the prediction of &#34;True&#34;.</li>
+<li>Calculating SHAP values can be slow. It isn&#39;t a problem here, because this dataset is small. But you&#39;ll want to be careful when running these to plot with reasonable sized datasets. The exception is when using an <code>XGBOOST</code> model, which SHAP has some optimizations for and which is thus much faster.</li>
+</ul>
+<p>This provides a great overview of the model, but we might want to delve into a single feature. That&#39;s where SHAP dependence contribution plots come into play.</p>
+<h2>SHAP Dependence Contribution plots</h2>
+<p><strong>Partial Dependence Plots</strong> help show how a single feature impacts predictions.</p>
+<p>These are insightful and relevant for many real-world use cases. Plus, with a little effort, they can be explained to a non-technical audience.</p>
+<p>But there&#39;s a lot they don&#39;t show. For instance, what is the distribution of effects? Is the effect of having a certain value pretty constant, or does it vary a lot depending on the values of other feaures.</p>
+<p><strong>SHAP dependence contribution plots</strong> provide a similar insight to PDP&#39;s, but they add a lot more detail.</p>
+<p><img alt="SHAP_Dependence_Contribution_plots.png" src="img/358ccc50abf3d31.png"></p>
+<p>Start by focusing on the shape, and we&#39;ll come back to color in a minute.</p>
+<ul>
+<li><strong>Each dot</strong> represents <strong>a row of the data</strong>.</li>
+<li>The <strong>horizontal location</strong> is <strong>the actual value from the dataset</strong>,</li>
+<li>and the <strong>vertical location</strong> shows <strong>what having that value did to the prediction</strong>.</li>
+</ul>
+<p>The fact this slopes upward says that the more you possess the ball, the higher the model&#39;s prediction is for winning the <em>Man of the Game</em> award.</p>
+<p>The spread suggests that other features must interact with <code>Ball Possession %</code>.</p>
+<p>For example, here we have highlighted two points with similar ball possession values. That value caused one prediction to increase, and it caused the other prediction to decrease.</p>
+<p><img alt="SHAP_Dependence_Contribution_plots_differentSHAP_sameFeatureValue" src="img/1b62599480fc20d0.png"></p>
+<p>For comparison, a simple linear regression would produce plots that are perfect lines, without this spread.</p>
+<p>This suggests we delve into the interactions, and the plots include color coding to help do that. While the primary trend is upward, you can visually inspect whether that varies by dot color.</p>
+<p>Consider the following very narrow example for concreteness.</p>
+<p><img alt="SHAP_Dependence_Contribution_plots_similarSHAP_extremeFeatureValue" src="img/e5ccb7aec8a015d.png"></p>
+<ul>
+<li>These two points stand out spatially as being far away from the upward trend.</li>
+<li>They are both colored purple, indicating the team scored one goal.</li>
+<li>You can interpret this to say:<br>&gt; In general, having the ball increases a team&#39;s chance of having their player win the award. But if they only score one goal, that trend reverses and the award judges may penalize them for having the ball so much if they score that little.</li>
+</ul>
+<p>Outside of those few outliers, the interaction indicated by color isn&#39;t very dramatic here. But sometimes it will jump out at you.</p>
+<p>We get the dependence contribution plot with the following code. The only line that&#39;s different from the <code>summary_plot</code> is the last line.</p>
+<pre><code>import shap  # package used to calculate Shap values
+
+# Create object that can calculate shap values
+explainer = shap.TreeExplainer(my_model)
+
+# calculate shap values. This is what we will plot.
+shap_values = explainer.shap_values(X)
+
+# make plot.
+shap.dependence_plot(&#39;Ball Possession %&#39;, shap_values[1], X, interaction_index=&#34;Goal Scored&#34;)
+</code></pre>
+<p>If you don&#39;t supply an argument for <code>interaction_index</code>, Shapley uses some logic to pick one that may be interesting.</p>
+<p>This didn&#39;t require writing a lot of code. But the trick with these techniques is in thinking critically about the results rather than writing code itself.</p>
+<h2>Exercise: Advanced Uses of SHAP Values</h2>
+<p><a href="https://www.kaggle.com/patechoc/exercise-advanced-uses-of-shap-values/edit" target="_blank">Link to the exercise.</a></p>
+<p>In this exercise, we learn to examin the <strong>distribution of effects for each feature</strong> (SHAP summary plots, SHAP Dependence plots), rather than just an average effect for each feature (Permutation Importance plot and PDP plot). They may take a while to run though!</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Code Library" duration="10">
+        <p>As you write code to work through your scenario, these code snippets from various sections of the course may be useful.</p>
+<p>Starting from one of these simple models:</p>
+<pre><code># Readmission at the hospital
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+
+data = pd.read_csv(&#39;../input/hospital-readmissions/train.csv&#39;)
+y = data.readmitted
+
+base_features = [c for c in data.columns if c != &#34;readmitted&#34;]
+X = data[base_features]
+
+train_X, val_X, train_y, val_y = train_test_split(X, y, random_state=1)
+my_model = RandomForestClassifier(n_estimators=30, random_state=1).fit(train_X, train_y)
+</code></pre>
+<p>or</p>
+<pre><code># Winning Man of the Game in football
+import numpy as np
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+
+data = pd.read_csv(&#39;../input/fifa-2018-match-statistics/FIFA 2018 Statistics.csv&#39;)
+y = (data[&#39;Man of the Match&#39;] == &#34;Yes&#34;)  # Convert from string &#34;Yes&#34;/&#34;No&#34; to binary
+
+feature_names = [i for i in data.columns if data[i].dtype in [np.int64, np.int64]]
+X = data[feature_names]
+
+train_X, val_X, train_y, val_y = train_test_split(X, y, random_state=1)
+my_model = RandomForestClassifier(random_state=0).fit(train_X, train_y)
+</code></pre>
+<h2>Calculate and show permutation importance</h2>
+<pre><code>import eli5
+from eli5.sklearn import PermutationImportance
+
+perm = PermutationImportance(my_model, random_state=1).fit(val_X, val_y)
+eli5.show_weights(perm, feature_names = val_X.columns.tolist())
+</code></pre>
+<p><strong>Pros</strong></p>
+<p>Permutation Importance is great because it creates simple numeric measures to see which features mattered to a model.</p>
+<p>This helped us make comparisons between features easily, and you can present the resulting graphs to non-technical audiences.</p>
+<p><strong>Cons</strong></p>
+<p>But Permutation Importance doesn&#39;t tell you how each features matter. If a feature has medium permutation importance, that could mean it has</p>
+<p>a large effect for a few predictions, but no effect in general, or<br>a medium effect for all predictions</p>
+<h2>Calculate and show partial dependence plot</h2>
+<pre><code>from matplotlib import pyplot as plt
+from pdpbox import pdp, get_dataset, info_plots
+
+feature_name = &#39;number_inpatient&#39;
+# Create the data that we will plot
+my_pdp = pdp.pdp_isolate(model=my_model,
+                         dataset=val_X,
+                         model_features=val_X.columns,
+                         feature=feature_name)
+
+# plot it
+pdp.pdp_plot(my_pdp, featuimport eli5
+from eli5.sklearn import PermutationImportance
+
+perm = PermutationImportance(my_model, random_state=1).fit(val_X, val_y)
+eli5.show_weights(perm, feature_names = val_X.columns.tolist())e_name)
+plt.show()
+</code></pre>
+<p><strong>Pros</strong></p>
+<p>Partial Dependence Plots help show how a single feature impacts predictions.</p>
+<p>These are insightful and relevant for many real-world use cases. Plus, with a little effort, they can be explained to a non-technical audience.</p>
+<p><strong>Cons</strong></p>
+<p>But there&#39;s a lot Partial Dependence Plots don&#39;t show.</p>
+<p>For instance, what is the distribution of effects?</p>
+<ul>
+<li>Is the effect of having a certain value pretty constant?</li>
+<li>or does it vary a lot depending on the values of other feaures?</li>
+</ul>
+<p>SHAP dependence contribution plots provide a similar insight to PDP&#39;s, but they add a lot more detail.</p>
+<h2>Calculate and show Shap Values for One Prediction</h2>
+<pre><code>import shap  # package used to calculate Shap values
+
+data_for_prediction = val_X.iloc[0,:]  # use 1 row of data here. Could use multiple rows if desired
+# data_for_prediction = val_X.iloc[0].astype(float)  # to test function
+
+# Create object that can calculate shap values
+explainer = shap.TreeExplainer(my_model)
+shap_values = explainer.shap_values(data_for_prediction)
+shap.initjs()
+
+# The first array is the SHAP values for a negative outcome
+shap.force_plot(explainer.expected_value[0], shap_values[0], data_for_prediction)
+
+# The second array is the list of SHAP values for the positive outcome
+shap.force_plot(explainer.expected_value[1], shap_values[1], data_for_prediction)
+
+</code></pre>
+<p>or more concrete:</p>
+<pre><code>sample_data_for_prediction = val_X.iloc[0].astype(float)
+
+# The first array is the SHAP values for a negative outcome
+# The second array is the list of SHAP values for the positive outcome
+
+def patient_risk_factors_readmission(model, patient_data):
+    # Create object that can calculate shap values
+    explainer = shap.TreeExplainer(model)
+    shap_values = get_shap_arrays(model, patient_data)
+    shap.initjs()
+    # expected_value[1] for positive outcome, i.e. &#34;being readmitted&#34;
+    return shap.force_plot(explainer.expected_value[1], shap_values[1], patient_data)
+
+patient_risk_factors_readmission(my_model, sample_data_for_prediction)
+</code></pre>
+<h2>Calculate and show Shap Values for Many Predictions</h2>
+<ul>
+<li><strong>SHAP summary plots</strong> give us a birds-eye view of <strong>feature importance</strong> and what is driving it.</li>
+</ul>
+<pre><code>import shap  # package used to calculate Shap values
+
+# Create object that can calculate shap values
+explainer = shap.TreeExplainer(my_model)
+
+# calculate shap values. This is what we will plot.
+# Calculate shap_values for all of val_X rather than a single row, to have more data for plot.
+shap_values = explainer.shap_values(val_X)
+
+# Make plot. Index of [1] is explained in text below.
+shap.summary_plot(shap_values[1], val_X)
+</code></pre>
+<ul>
+<li>We get the <strong>dependence contribution plot</strong> with the following code. The only line that&#39;s different from the <code>summary_plot</code> is the last line.</li>
+</ul>
+<pre><code>import shap  # package used to calculate Shap values
+
+# Create object that can calculate shap values
+explainer = shap.TreeExplainer(my_model)
+
+# calculate shap values. This is what we will plot.
+shap_values = explainer.shap_values(X)
+
+# make plot.
+shap.dependence_plot(&#39;Ball Possession %&#39;, shap_values[1], X, interaction_index=&#34;Goal Scored&#34;)
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="References" duration="2">
+        <ul>
+<li>The original course <strong>&#34;Machine Learning Explainability&#34;</strong> by Dan Becker<br>Extract human understandable insights from any Machine Learning model<br><a href="https://www.kaggle.com/learn/machine-learning-explainability" target="_blank">https://www.kaggle.com/learn/machine-learning-explainability</a></li>
+<li>A book <strong>Interpretable Machine Learning</strong> by Christoph Molnar<br>&#34;A Guide for Making Black Box Models Explainable.&#34;<br><a href="https://christophm.github.io/interpretable-ml-book/" target="_blank">https://christophm.github.io/interpretable-ml-book/</a></li>
+</ul>
+<p>Congratulations!<br>I hope like me you enjoyed learning how to get more from your models. Big thanks to Dan Becker ;)</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-49880327-14', 'auto');
+
+    (function() {
+      var gaCodelab = 'UA-72074624-2';
+      if (gaCodelab) {
+        ga('create', gaCodelab, 'auto', {name: 'codelab'});
+      }
+
+      var gaView;
+      var parts = location.search.substring(1).split('&');
+      for (var i = 0; i < parts.length; i++) {
+        var param = parts[i].split('=');
+        if (param[0] === 'viewga') {
+          gaView = param[1];
+          break;
+        }
+      }
+      if (gaView && gaView !== gaCodelab) {
+        ga('create', gaView, 'auto', {name: 'view'});
+      }
+    })();
+  </script>
+
+</body>
+</html>

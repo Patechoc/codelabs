@@ -1,0 +1,30 @@
+{
+  "environment": "web",
+  "source": "building-your-first-webapp-with-VueJS.md",
+  "format": "html",
+  "prefix": "../",
+  "mainga": "UA-49880327-14",
+  "updated": "2019-01-09T10:30:08+01:00",
+  "id": "building-your-first-webapp-with-VueJS",
+  "duration": 30,
+  "title": "Building your first web app with VueJS",
+  "author": "Patrick Merlot",
+  "summary": "Building your first web app with VueJS",
+  "theme": "",
+  "status": [
+    "draft"
+  ],
+  "category": [
+    "education",
+    "webapp",
+    "vuejs",
+    "npm",
+    "vuecli"
+  ],
+  "tags": [
+    "codelabs"
+  ],
+  "feedback": "github.com/Patechoc/codelabs",
+  "ga": "UA-72074624-2",
+  "url": "building-your-first-webapp-with-VueJS"
+}

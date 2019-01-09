@@ -1,0 +1,156 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Building your first web app with VueJS</title>
+  <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../elements/codelab.html">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <style is="custom-style">
+    body {
+      font-family: "Roboto",sans-serif;
+      background: var(--google-codelab-background, #F8F9FA);
+    }
+  </style>
+  
+</head>
+<body unresolved class="fullbleed">
+
+  <google-codelab title="Building your first web app with VueJS"
+                  environment="web"
+                  feedback-link="github.com/Patechoc/codelabs">
+    
+      <google-codelab-step label="Overview of the tutorial" duration="5">
+        <p><a href="https://vuejs.org/" target="_blank">VueJS</a> is one of the 3 most used modern web development framework together with <a href="https://reactjs.org" target="_blank">React</a> and <a href="https://angular.io" target="_blank">Angular</a>.</p>
+<p>Despite that the latter maintained respectively by the tech giants <em>Facebook</em> and <em>Google</em>, Vue seems highly attractive to many experienced web developers for its design, its flexibility and ease of development. That makes it very appealing for a newbie like me who doesn&#39;t know where to start, but who trusts the ones (I believe) who know what they are talking about, like any other hyper-social animal would do! :dolphin: :woman-gesturing-ok: :man-gesturing-ok:</p>
+<p>This tutorial is about <strong>building a web app using VueJS</strong> and <strong>understanding the different components and the build process</strong> to achieve it.<br>It is the first tutorial in a series that should lead to more advanced features of modern webapps, possibly involving other frameworks for front-end and backend (e.g. React, Angular, Python/Flask).</p>
+<h2>What you will learn</h2>
+<p>In this tutorial you will learn to do the following:</p>
+<ul>
+<li>install Vue and Vue CLI</li>
+<li>configure your project</li>
+<li>serve your web app locally</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Installation" duration="10">
+        <p>There is probably thousands of way to build a javascript-based project and it makes it overwhelming for someone like me who is not used to build modern web apps and to follow with development trend in that field.</p>
+<p>So to get started properly without background, Vue CLI seems like a safe choice, maybe not the best, but Vue CLI seems built for that, simplifying the build of your VueJS web application.</p>
+<p><a href="https://www.youtube.com/watch?v=cP9bhEknW_g" target="_blank">Here is a video</a> telling you everything you need to know and the installation&#39;s steps are the following:</p>
+<h2>Install npm &amp; Vue CLI 3</h2>
+<ul>
+<li><a href="https://www.npmjs.com/get-npm" target="_blank">Install npm</a> on your machine</li>
+<li>then install Vue CLI 3:</li>
+</ul>
+<pre><code>npm i -g @vue/cli
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create &amp; Configure your new project from the command line" duration="10">
+        <h2>Create your project</h2>
+<p>Let&#39;s build the project named <code>real-world-vue</code>:</p>
+<pre><code>vue create real-world-vue
+</code></pre>
+<h2>Configure your project</h2>
+<p>You will be prompted menus where you interact with the arrows, spacebar and Enter on your keyboard.</p>
+<p>we will follow the tutoril and pick this setting:</p>
+<pre><code>? Please pick a preset: Manually select features
+? Check the features needed for your project: Babel, Router, Vuex, Linter
+? Use history mode for router? (Requires proper server setup for index fallback in production) Yes
+? Pick a linter / formatter config: Prettier
+? Pick additional lint features: (Press &lt;space&gt; to select, &lt;a&gt; to toggle all, &lt;i&gt; to invert selection
+)Lint on save
+? Where do you prefer placing config for Babel, PostCSS, ESLint, etc.? In dedicated config files
+? Save this as a preset for future projects? (y/N) N
+</code></pre>
+<h2>Run your project locally</h2>
+<p>You can open your new project folder and run your project:</p>
+<pre><code>cd real-world-vue
+</code></pre>
+<p><code>npm run serve</code> will build our project and serve it as a local host.</p>
+<p>you will be prompter the output local url: <a href="http://localhost:8080/" target="_blank">http://localhost:8080/</a></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create &amp; Configure your new project from Vue UI" duration="5">
+        <p>This seems even simpler and providing much more information <a href="https://youtu.be/cP9bhEknW_g?t=180" target="_blank">using the Vue User Interface</a>.</p>
+<p>To open it, simply type <code>vue ui</code>.</p>
+<p>Apply the same settings as previously when creating a new project.</p>
+<p>From the <em>Project Dashboard</em> you can:</p>
+<ul>
+<li>put widgets</li>
+<li>add Vue CLI plugins</li>
+<li>manage the packages of your dependencies</li>
+<li>configure the tools and &#34;Tasks&#34; to run scripts (e.g. Webpack)</li>
+</ul>
+<pre><code>$ tree -L 2
+.
+|-- README.md
+|-- babel.config.js
+|-- node_modules ## with all the libraries/dependencies needed to build the project
+|   |-- @babel
+|   |-- @intervolga
+|    ...
+|    ...
+|   |-- yargs
+|   |-- yargs-parser
+|   `-- yorkie
+|-- package.json
+|-- postcss.config.js
+|-- public ## put files (like images) that you don&#39;t want processed through Webpack
+|   |-- favicon.ico
+|   `-- index.html
+`-- src ## where all our application-code goes (images, fonts, css, ...)
+    |-- App.vue ## Root component that all other components are nested within
+    |-- assets
+    |-- components ## components or building blocks of our Vue app
+    |-- main.js ## files that renders our app &amp; mounts it to the DOM
+    |-- router.js ## configuration of our Vue Router
+    |-- store.js ## configuration of Vuex
+    `-- views ## files for the different views or &#34;pages&#34; of our app
+</code></pre>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-49880327-14', 'auto');
+
+    (function() {
+      var gaCodelab = 'UA-72074624-2';
+      if (gaCodelab) {
+        ga('create', gaCodelab, 'auto', {name: 'codelab'});
+      }
+
+      var gaView;
+      var parts = location.search.substring(1).split('&');
+      for (var i = 0; i < parts.length; i++) {
+        var param = parts[i].split('=');
+        if (param[0] === 'viewga') {
+          gaView = param[1];
+          break;
+        }
+      }
+      if (gaView && gaView !== gaCodelab) {
+        ga('create', gaView, 'auto', {name: 'view'});
+      }
+    })();
+  </script>
+
+</body>
+</html>
