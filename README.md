@@ -10,30 +10,35 @@ It is also often said that if you want to understand something well... explain i
 
 Google Codelabs on its own is also an open source project that I re-use here to present such tutorials and examples. Great if it helps others too :)
 
+---------------------------------------------
+
 ## Installation 
 
 * Install `claat` - see [https://github.com/googlecodelabs/tools/tree/master/claat](https://github.com/googlecodelabs/tools/tree/master/claat)
 
 
 
-
+---------------------------------------------
 
 ## Create a codelab
 
 ###  Generate content from markdown
 
 * Write a codelab! See https://github.com/googlecodelabs/ for instructions
-* `claat export --prefix "../" -o docs codelab-name.md` 
-* build the html version of your tutorial: `cd docs && claat build`
-* serve them locally with `claat serve`
+* build and serve your new tutorial: `make build` which does these steps for you:
+    * `claat export --prefix "../" -o docs codelab-name.md` 
+    * build the html version of your tutorial: `cd docs && claat build`
+    * serve them locally with `claat serve`
 
 and commit & push files to master
 
+More details in the [Makefile](./Makefile).
 
 ###  Generate content from Google Docs
 
-You can also generate a codelab from a GDocs: https://github.com/googlecodelabs/tools#ok-how-do-i-use-it
+You can also generate a codelab from a GDocs if you prefer: https://github.com/googlecodelabs/tools#ok-how-do-i-use-it
 
+---------------------------------------------
 
 ## Reference
 
