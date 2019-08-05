@@ -1,0 +1,31 @@
+{
+  "environment": "web",
+  "source": "basics-visualization-VueJS.md",
+  "format": "html",
+  "prefix": "../../",
+  "mainga": "UA-49880327-14",
+  "updated": "2019-08-05T23:22:38+02:00",
+  "id": "basic-visualization-with-VueJS",
+  "duration": 5,
+  "title": "Basic Visualization with VueJS",
+  "author": "Patrick Merlot",
+  "summary": "Basic Visualization with Vue.JS",
+  "theme": "",
+  "status": [
+    "draft"
+  ],
+  "category": [
+    "education",
+    "webapp",
+    "vuejs",
+    "data",
+    "visualization",
+    "svg"
+  ],
+  "tags": [
+    "codelabs"
+  ],
+  "feedback": "github.com/Patechoc/codelabs",
+  "ga": "UA-72074624-2",
+  "url": "basic-visualization-with-VueJS"
+}

@@ -93,14 +93,19 @@ This seems even simpler and providing much more information [using the Vue User 
 
 To open it, simply type `vue ui`.
 
-Apply the same settings as previously when creating a new project.
+### Configure your project
+
+Apply the same settings as previously when creating a new project in order to configure it as you wish. This is just as simple as through the command line, but more visually intuitive and bringing many more possibilities.
 
 From the _Project Dashboard_ you can:
 
-* put widgets
-* add Vue CLI plugins
-* manage the packages of your dependencies
-* configure the tools and "Tasks" to run scripts (e.g. Webpack)
+* put widgets,
+* add Vue CLI plugins,
+* manage the packages of your dependencies,
+* configure the tools and "Tasks" to run scripts (e.g. [Webpack](https://webpack.js.org/)).
+
+
+This is how your final app would look like:
 
 ```shell
 $ tree -L 2
@@ -129,3 +134,55 @@ $ tree -L 2
     |-- store.js ## configuration of Vuex
     `-- views ## files for the different views or "pages" of our app
 ```
+
+
+### Run your project locally
+
+You can open your project from the UI and run it from there or through the command line again:
+
+```shell
+cd real-world-vue
+npm run serve
+```
+
+
+## Building your app
+
+
+When running your app with `npm run serve`, you will this message:
+
+```shell
+  App running at:
+  - Local:   http://localhost:8080/ 
+  - Network: http://10.47.11.82:8080/
+
+  Note that the development build is not optimized.
+  To create a production build, run npm run build.
+```
+
+This is just an indication that the project hasn't been built, optimized and minified using [Webpack](https://webpack.js.org/).
+
+To do it, simply use: `npm run build`.
+
+```shell
+npm run build
+
+...
+⠏  Building for production...
+
+ DONE  Compiled successfully in 5685ms                                                     1:00:52 PM
+
+  File                                 Size               Gzipped
+
+  dist/js/chunk-vendors.dc64aec3.js    112.84 kb          39.09 kb
+  dist/js/app.26301760.js              6.08 kb            2.28 kb
+  dist/js/about.d63ad26f.js            0.47 kb            0.33 kb
+  dist/css/app.7dae01f4.css            0.42 kb            0.26 kb
+
+  Images and other types of assets omitted.
+
+ DONE  Build complete. The dist directory is ready to be deployed.
+ INFO  Check out deployment instructions at https://cli.vuejs.org/guide/deployment.html
+```
+
+When complete, it generates a `dist/` directory [ready to be deployed](https://cli.vuejs.org/guide/deployment.html)!

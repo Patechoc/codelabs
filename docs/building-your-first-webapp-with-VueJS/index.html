@@ -84,14 +84,16 @@
       <google-codelab-step label="Create &amp; Configure your new project from Vue UI" duration="5">
         <p>This seems even simpler and providing much more information <a href="https://youtu.be/cP9bhEknW_g?t=180" target="_blank">using the Vue User Interface</a>.</p>
 <p>To open it, simply type <code>vue ui</code>.</p>
-<p>Apply the same settings as previously when creating a new project.</p>
+<h2>Configure your project</h2>
+<p>Apply the same settings as previously when creating a new project in order to configure it as you wish. This is just as simple as through the command line, but more visually intuitive and bringing many more possibilities.</p>
 <p>From the <em>Project Dashboard</em> you can:</p>
 <ul>
-<li>put widgets</li>
-<li>add Vue CLI plugins</li>
-<li>manage the packages of your dependencies</li>
-<li>configure the tools and &#34;Tasks&#34; to run scripts (e.g. Webpack)</li>
+<li>put widgets,</li>
+<li>add Vue CLI plugins,</li>
+<li>manage the packages of your dependencies,</li>
+<li>configure the tools and &#34;Tasks&#34; to run scripts (e.g. <a href="https://webpack.js.org/" target="_blank">Webpack</a>).</li>
 </ul>
+<p>This is how your final app would look like:</p>
 <pre><code>$ tree -L 2
 .
 |-- README.md
@@ -118,6 +120,46 @@
     |-- store.js ## configuration of Vuex
     `-- views ## files for the different views or &#34;pages&#34; of our app
 </code></pre>
+<h2>Run your project locally</h2>
+<p>You can open your project from the UI and run it from there or through the command line again:</p>
+<pre><code>cd real-world-vue
+npm run serve
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Building your app" duration="0">
+        <p>When running your app with <code>npm run serve</code>, you will this message:</p>
+<pre><code>  App running at:
+  - Local:   http://localhost:8080/ 
+  - Network: http://10.47.11.82:8080/
+
+  Note that the development build is not optimized.
+  To create a production build, run npm run build.
+</code></pre>
+<p>This is just an indication that the project hasn&#39;t been built, optimized and minified using <a href="https://webpack.js.org/" target="_blank">Webpack</a>.</p>
+<p>To do it, simply use: <code>npm run build</code>.</p>
+<pre><code>npm run build
+
+...
+⠏  Building for production...
+
+ DONE  Compiled successfully in 5685ms                                                     1:00:52 PM
+
+  File                                 Size               Gzipped
+
+  dist/js/chunk-vendors.dc64aec3.js    112.84 kb          39.09 kb
+  dist/js/app.26301760.js              6.08 kb            2.28 kb
+  dist/js/about.d63ad26f.js            0.47 kb            0.33 kb
+  dist/css/app.7dae01f4.css            0.42 kb            0.26 kb
+
+  Images and other types of assets omitted.
+
+ DONE  Build complete. The dist directory is ready to be deployed.
+ INFO  Check out deployment instructions at https://cli.vuejs.org/guide/deployment.html
+</code></pre>
+<p>When complete, it generates a <code>dist/</code> directory <a href="https://cli.vuejs.org/guide/deployment.html" target="_blank">ready to be deployed</a>!</p>
 
 
       </google-codelab-step>

@@ -1,0 +1,422 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Basic Visualization with VueJS</title>
+  <script src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../../elements/codelab.html">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <style is="custom-style">
+    body {
+      font-family: "Roboto",sans-serif;
+      background: var(--google-codelab-background, #F8F9FA);
+    }
+  </style>
+  
+</head>
+<body unresolved class="fullbleed">
+
+  <google-codelab title="Basic Visualization with VueJS"
+                  environment="web"
+                  feedback-link="github.com/Patechoc/codelabs">
+    
+      <google-codelab-step label="Overview of the tutorial" duration="5">
+        <p><a href="https://vuejs.org/" target="_blank">VueJS</a> is one of the 3 most used modern web development framework together with <a href="https://reactjs.org" target="_blank">React</a> and <a href="https://angular.io" target="_blank">Angular</a>.</p>
+<p>Despite that the latter maintained respectively by the tech giants <em>Facebook</em> and <em>Google</em>, Vue seems highly attractive to many experienced web developers for its design, its flexibility and ease of development. That makes it very appealing for a newbie like me who doesn&#39;t know where to start ;)</p>
+<p>This tutorial is about <strong>visualizing data in a web app built with Vue.JS</strong>.</p>
+<h2>What you will learn</h2>
+<p>In this tutorial you will learn to do the following:</p>
+<ul>
+<li>write Hello World with Vue.js</li>
+<li>draw a rectangle as vector graphics (building SVG objects)</li>
+<li>define the properties of this SVG object in Vue.js</li>
+<li>use Vue transforms to replicate multiple rectangles</li>
+<li>inject some javascript to build a bar chart with Vue.js and your simple SVG.</li>
+<li>finally introduce methods in Vue.js to keep the logic out of the HTML as much as possible.</li>
+</ul>
+<h2>Prerequisites</h2>
+<aside class="warning"><p>we assume you know how to build a new project with VueJS. Even thought this codelabs makes heavy use of <a href="https://codepen.io/" target="_blank">Codepen</a> to test your code snippets, it is expected that you can run the same example locally as well.<br>So If you haven&#39;t already, follow this tutorial which teaches you how to <a href="../building-your-first-webapp-with-VueJS" target="_blank">build your first empty app with Vue</a>.</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Let&#39;s write Hello World" duration="0">
+        <p>With this <a href="https://codepen.io/patechoc/pen/OrwapX" target="_blank">codepen using only HTML &amp; JS</a> piece of code:</p>
+<pre><code>&lt;!-- development version, includes helpful console warnings --&gt;
+&lt;script src=&#34;https://cdn.jsdelivr.net/npm/vue/dist/vue.js&#34;&gt;&lt;/script&gt;
+
+&lt;div id=&#34;app&#34;&gt;
+  {{ message }}
+&lt;/div&gt;
+</code></pre>
+<pre><code>var app = new Vue({
+  el: &#39;#app&#39;,
+  data: {
+    message: &#39;Hello Vue!&#39;
+  }
+})
+</code></pre>
+<p>you should see:</p>
+<pre><code>Hello Vue!
+&lt;/div&gt;
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Now let&#39;s draw a vectorized rectangle" duration="0">
+        <pre><code>&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34;
+      width=&#34;200&#34; height=&#34;200&#34;&gt;
+  
+   &lt;rect width=&#34;200&#34; height=&#34;100&#34;
+        x=&#34;10&#34; y=&#34;10&#34;
+        fill=&#34;#f0b375&#34;&gt;
+  &lt;/rect&gt;
+&lt;/svg&gt;
+</code></pre>
+<p>Simply test it live: <a href="https://codepen.io/patechoc/pen/PXyerE" target="_blank">https://codepen.io/patechoc/pen/PXyerE</a>.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="binding SVG and Vue" duration="0">
+        <p>Let&#39;s get back the width and height from Javascript with Vue:</p>
+<pre><code>new Vue({
+  el: &#39;#chart&#39;,
+  data: {
+    width: 200,
+    height: 100,
+    x: 10,
+    y: 10
+  }
+});
+</code></pre>
+<pre><code>  &lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34;
+        width=&#34;200&#34; height=&#34;200&#34; id=&#34;chart&#34;&gt;
+
+     &lt;rect :width=&#34;width&#34; :height=&#34;height&#34;
+          :x=&#34;x&#34; :y=&#34;y&#34;
+          fill=&#34;#f0b375&#34;&gt;
+    &lt;/rect&gt;
+    
+  &lt;/svg&gt;
+</code></pre>
+<p>You should get the exact same rectangle, but now generated from values coming from Vue.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Build a bar chart in 15 lines" duration="0">
+        <p>Start building a bar chart now!</p>
+<p>We introduce the <code>&lt;g&gt;</code> element in SVG, which is a bit like the <code>&lt;div&gt;</code> in HTML. It doesn&#39;t do anything by itself, but you use it to group things together, here a rectangle and some text.</p>
+<pre><code>&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; width=&#34;500&#34; height=&#34;300&#34;&gt;
+  &lt;g transform=&#34;translate(0,0)&#34;&gt;
+    &lt;rect width=&#34;60&#34; height=&#34;19&#34; fill=&#34;#f0b375&#34;&gt;&lt;/rect&gt;
+    &lt;text x=&#34;60&#34; y=&#34;9.5&#34; dy=&#34;.35em&#34;&gt;60&lt;/text&gt;
+  &lt;/g&gt;
+  &lt;g transform=&#34;translate(0,20)&#34;&gt;
+    &lt;rect width=&#34;80&#34; height=&#34;19&#34; fill=&#34;#f0b375&#34;&gt;&lt;/rect&gt;
+    &lt;text x=&#34;80&#34; y=&#34;9.5&#34; dy=&#34;.35em&#34;&gt;80&lt;/text&gt;
+  &lt;/g&gt;
+  &lt;g transform=&#34;translate(0,40)&#34;&gt;
+    &lt;rect width=&#34;150&#34; height=&#34;19&#34; fill=&#34;#f0b375&#34;&gt;&lt;/rect&gt;
+    &lt;text x=&#34;150&#34; y=&#34;9.5&#34; dy=&#34;.35em&#34;&gt;150&lt;/text&gt;
+  &lt;/g&gt;
+  &lt;g transform=&#34;translate(0,60)&#34;&gt;
+    &lt;rect width=&#34;160&#34; height=&#34;19&#34; fill=&#34;#f0b375&#34;&gt;&lt;/rect&gt;
+    &lt;text x=&#34;160&#34; y=&#34;9.5&#34; dy=&#34;.35em&#34;&gt;160&lt;/text&gt;
+  &lt;/g&gt;
+  &lt;g transform=&#34;translate(0,80)&#34;&gt;
+    &lt;rect width=&#34;230&#34; height=&#34;19&#34; fill=&#34;#f0b375&#34;&gt;&lt;/rect&gt;
+    &lt;text x=&#34;230&#34; y=&#34;9.5&#34; dy=&#34;.35em&#34;&gt;230&lt;/text&gt;
+  &lt;/g&gt;
+  &lt;g transform=&#34;translate(0,100)&#34;&gt;
+    &lt;rect width=&#34;420&#34; height=&#34;19&#34; fill=&#34;#f0b375&#34;&gt;&lt;/rect&gt;
+    &lt;text x=&#34;420&#34; y=&#34;9.5&#34; dy=&#34;.35em&#34;&gt;420&lt;/text&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
+</code></pre>
+<p>Clearly a <em>For loop</em> would be more elegant here and reduce the size of the HTML template.</p>
+<pre><code>new Vue({
+  el: &#39;#chart&#39;,
+  data: {
+    chartData: [60, 80, 150, 160, 230, 420],
+  },
+});
+</code></pre>
+<pre><code>&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; width=&#34;500&#34; height=&#34;300&#34; id=&#34;chart&#34;&gt;
+  &lt;g
+    v-for=&#34;(value, i) in chartData&#34;
+    :transform=&#34;`translate(0, ${i * 30})`&#34;&gt;
+    &lt;rect width=200 height=&#34;19&#34; fill=&#34;#f0b375&#34;&gt;&lt;/rect&gt;
+    &lt;text x=&#34;200&#34; y=&#34;9.5&#34; dy=&#34;.35em&#34;&gt;{{ value }}&lt;/text&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
+</code></pre>
+<p>This will simply translate the same rectangle (200x19) by 30 pixels to make <a href="https://codepen.io/patechoc/pen/REeYeK" target="_blank">this</a>:</p>
+<p>And to get a bar chart, we just need to pass the value to the width of each rectangle.<br>The javascript part doesn&#39;t change.</p>
+<pre><code>new Vue({
+  el: &#39;#chart&#39;,
+  data: {
+    chartData: [60, 80, 150, 160, 230, 420],
+  },
+});
+</code></pre>
+<p>But to generate the length of these bars, we will include some javascript and do a little bit of maths. Thos <a href="https://codepen.io/patechoc/pen/jXeJEP" target="_blank">codepen</a> will show it live.</p>
+<pre><code>&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; width=&#34;500&#34; height=&#34;300&#34; id=&#34;chart&#34;&gt;
+  &lt;g
+    v-for=&#34;(value, i) in chartData&#34;
+    :transform=&#34;`translate(0, ${i * 30})`&#34;&gt;
+    &lt;rect :width=&#34;value&#34; height=&#34;19&#34; fill=&#34;#f0b375&#34;&gt;&lt;/rect&gt;
+    &lt;text :x=&#34;value&#34; :dx=&#34;-Math.ceil(Math.log10(value))*10&#34; y=&#34;9.5&#34; dy=&#34;.35em&#34;&gt;{{ value }}&lt;/text&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
+</code></pre>
+<p>The problem with that is that it moves maybe too much of the logic to the HTML template. We would rather compute everything in the Javascript.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Extending the Vue object with methods" duration="0">
+        <p>Here we move the calculation of the length of the bar and of the position of the text from the HTML template back to javascript with the Vue.js methods <code>barWidth(value)</code> and <code>textPosition(value)</code>. This doesn&#39;t change <a href="https://codepen.io/patechoc/pen/xmyBoQ" target="_blank">the output</a>.</p>
+<pre><code>new Vue({
+  el: &#39;#chart&#39;,
+  data: {
+    chartData: [60, 80, 150, 160, 230, 420],
+  },
+  methods: {
+    barWidth(value){
+      return value*500/420;
+    },
+    textPosition(value){
+      return -Math.ceil(Math.log10(value))*10;
+    },
+  },
+});
+</code></pre>
+<pre><code>&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; width=&#34;500&#34; height=&#34;300&#34; id=&#34;chart&#34;&gt;
+  &lt;g
+    v-for=&#34;(value, i) in chartData&#34;
+    :transform=&#34;`translate(0, ${i * 30})`&#34;&gt;
+    &lt;rect :width=&#34;barWidth(value)&#34; height=&#34;19&#34; fill=&#34;#f0b375&#34;&gt;&lt;/rect&gt;
+    &lt;text :x=&#34;barWidth(value)&#34; :dx=&#34;textPosition(value)&#34; y=&#34;9.5&#34; dy=&#34;.35em&#34;&gt;{{ value }}&lt;/text&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
+</code></pre>
+<p>Notice that now, we also scale the bars relatively to the highest value we have (here <code>420</code>). The length of the highest bar should always be at the max of your SVG width (e.g. <code>500</code>), and the others be scaled relatively to that one (i.e. multiplied by a factor <code>500/420</code>).</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Extending the Vue object with computed properties" duration="0">
+        <p>We hard-coded the scaling factor <code>500/420</code> in the last example. This is not so elegant ;)</p>
+<p>Hopefully for us, Vue.js also includes what is called <strong>computed properties</strong>.</p>
+<p>We don&#39;t have to change the HTML template (a little bit here to update the SVG length and width),</p>
+<pre><code>&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; :width=&#34;chartWidth&#34; :height=&#34;chartLength&#34; id=&#34;chart&#34;&gt;
+  &lt;g
+    v-for=&#34;(value, i) in chartData&#34;
+    :transform=&#34;`translate(0, ${i * 30})`&#34;&gt;
+    &lt;rect :width=&#34;barWidth(value)&#34; height=&#34;19&#34; fill=&#34;#f0b375&#34;&gt;&lt;/rect&gt;
+    &lt;text :x=&#34;barWidth(value)&#34; :dx=&#34;textPosition(value)&#34; y=&#34;9.5&#34; dy=&#34;.35em&#34;&gt;{{ value }}&lt;/text&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
+</code></pre>
+<p>and here is how we use the computed properties in javascript:</p>
+<pre><code>new Vue({
+  el: &#39;#chart&#39;,
+  data: {
+    chartWidth: 600,
+    chartLength: 300,
+    chartData: [60, 80, 150, 160, 230, 420],
+  },
+  methods: {
+    barWidth(value){
+      return value * this.chartWidth / this.dataMax;
+    },
+    textPosition(value){
+      return -Math.ceil(Math.log10(value))*10;
+    },
+  },
+  computed: {
+    dataMax() {
+      return Math.max(...this.chartData);
+    },
+  },
+});
+</code></pre>
+<p>See it working <a href="https://codepen.io/patechoc/pen/QzZPMa" target="_blank">live here</a> and play with the values in the JS part.</p>
+<p><strong>Computed properties</strong> are like half-way between the <strong>data</strong> and the <strong>methods</strong>:</p>
+<ul>
+<li>we access them as if they were properties of the data object,</li>
+<li>but they are executed as functions.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Vue.js methods &amp; computed properties behaves differently" duration="0">
+        <h2>Similar functionalities</h2>
+<p>Let&#39;s compare Vue.js methods and computed properties:</p>
+<pre><code>&lt;div id=&#34;chart&#34;&gt;
+  &lt;p&gt;{{ someMethod() }}&lt;/p&gt;
+  &lt;p&gt;{{ someComputed }}&lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code>new Vue({
+  el: &#39;#chart&#39;,
+  methods: {
+    someMethod() {
+      return &#34;method response&#34;;
+    },
+  },
+  computed: {
+    someComputed() {
+      return &#34;computed response&#34;;
+    },
+  },
+});
+</code></pre>
+<p>Test it live <a href="https://codepen.io/patechoc/pen/mazYdM" target="_blank">here</a>!</p>
+<h2>Different behaviour</h2>
+<p>Even though they look very similar, they behave very differently.</p>
+<p>We can desmonstrate it by calling them multiple times and adding some logs to the console:</p>
+<pre><code>&lt;div id=&#34;chart&#34;&gt;
+  &lt;p&gt;{{ someMethod() }}&lt;/p&gt;
+  &lt;p&gt;{{ someMethod() }}&lt;/p&gt;
+  &lt;p&gt;{{ someMethod() }}&lt;/p&gt;
+  &lt;p&gt;{{ someComputed }}&lt;/p&gt;
+  &lt;p&gt;{{ someComputed }}&lt;/p&gt;
+  &lt;p&gt;{{ someComputed }}&lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code>new Vue({
+  el: &#39;#chart&#39;,
+  methods: {
+    someMethod() {
+      console.log(&#34;method called&#34;);
+      return &#34;method response&#34;;
+    },
+  },
+  computed: {
+    someComputed() {
+      console.log(&#34;computed property called&#34;);
+      return &#34;computed response&#34;;
+    },
+  },
+});
+</code></pre>
+<p><img alt="different behavior of methods and computed properties" src="img/91f61818b4aad4b2.png"></p>
+<p>The output looks like each has been called 3 times, but the console clearly shows that only the method has really been processed/evaluated 3 times, while the value of computed property seems like cached and not evaluated more than once!</p>
+<p>See it by yourself in this <a href="https://codepen.io/patechoc/pen/OrBeJG" target="_blank">code snippet</a>!</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Events in Vue.js" duration="0">
+        <p>Events use the <a href="https://vuejs.org/v2/guide/syntax.html#v-on-Shorthand" target="_blank"><br>v-on</a><a href="https://vuejs.org/v2/guide/syntax.html#Directives" target="_blank">directive</a>.</p>
+<ul>
+<li>If we pass <code>click</code> to <code>v-on</code> as an argument.</li>
+<li>when we click anywhere on the SVG chart, we trigger the <code>handleClick</code> method.</li>
+<li>In this example the <code>handleClick</code> method just randomize the input data.</li>
+</ul>
+<pre><code>&lt;svg id=&#34;chart&#34; :width=&#34;chartWidth&#34; :height=&#34;chartHeight&#34; v-on:click=&#34;handleClick&#34;&gt;
+  &lt;g
+     v-for=&#34;(value, i) in chartData&#34;
+     :transform=&#34;`translate(0, ${i * (barHeight + 10)})`&#34;&gt;
+    &lt;rect :height=&#34;barHeight&#34; :width=&#34;barWidth(value)&#34;&gt;&lt;/rect&gt;
+    &lt;text :y=&#34;barHeight / 2&#34; :x=&#34;barWidth(value) - 10&#34;&gt;{{ value }}&lt;/text&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
+
+&lt;!-- intro next part + hardcode dataMax --&gt;
+</code></pre>
+<pre><code>const randomData = () =&gt; new Array(6).fill(&#39;&#39;).map(() =&gt; 1 + Math.floor(Math.random() * 20));
+
+new Vue({
+  el: &#39;#chart&#39;,
+  data: {
+    chartWidth: 900,
+    chartHeight: window.innerHeight - 10,
+    chartData: [60, 80, 150, 160, 230, 420],
+  },
+  methods: {
+    barWidth(value){
+      return value * this.chartWidth / this.dataMax;
+    },
+    textPosition(value){
+      return -Math.ceil(Math.log10(value))*10;
+    },
+    handleClick() {
+      this.chartData = randomData();
+    },
+  },
+  computed: {
+    barHeight() {
+      return this.chartHeight / this.chartData.length - 10;
+    },
+    dataMax() {
+      return Math.max(...this.chartData);
+    },
+  },
+});
+
+</code></pre>
+<p>Click on the SVG in this <a href="https://codepen.io/patechoc/pen/mazZod" target="_blank">live snippet</a>!</p>
+<p>https://www.youtube.com/watch?v=30v9xnB-GEo<br>http://macr.ae/</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="References" duration="0">
+        <ul>
+<li><a href="https://vuejs.org/v2/guide/" target="_blank">https://vuejs.org/v2/guide/</a></li>
+<li><a href="https://scrimba.com/playlist/pXKqta" target="_blank">Screencasts mirroring the official Vue.js guide</a></li>
+<li>Example: SVG transforms (translation, rotation, skew, scale, matrix, 3D rendering) https://codepen.io/AmeliaBR/pen/aDhrs/</li>
+<li>Example: interactions with widgets using HTML, SCSS (CSS) and Babel (JS) https://codepen.io/airen/pen/LerXYd</li>
+<li>Example using Pug (HTML), Less (CSS) and Babel (JS): https://codepen.io/sirlancelot/pen/NNGYEP</li>
+<li>Example using Pug (HTML), Less (CSS) and Babel (JS): https://codepen.io/sirlancelot/pen/ZWEWbQ</li>
+<li>Many examples with demo: https://vuejsexamples.com/font-awesome-component-for-vue-js-using-inline-svg/</li>
+<li>Art with SVG: (Mathieu Robert Ortis style) https://codepen.io/igstudio/pen/ZQxrBw, the eye https://codepen.io/ge1doot/pen/qLyZvQ</li>
+<li>Maps <strong>[TO BE ADAPTED TO Vue.js]</strong>: https://gist.github.com/auremoser/da1b8fe8de23fe6365923b1a4d8f7b7d</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-49880327-14', 'auto');
+
+    (function() {
+      var gaCodelab = 'UA-72074624-2';
+      if (gaCodelab) {
+        ga('create', gaCodelab, 'auto', {name: 'codelab'});
+      }
+
+      var gaView;
+      var parts = location.search.substring(1).split('&');
+      for (var i = 0; i < parts.length; i++) {
+        var param = parts[i].split('=');
+        if (param[0] === 'viewga') {
+          gaView = param[1];
+          break;
+        }
+      }
+      if (gaView && gaView !== gaCodelab) {
+        ga('create', gaView, 'auto', {name: 'view'});
+      }
+    })();
+  </script>
+
+</body>
+</html>
