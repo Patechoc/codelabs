@@ -16,7 +16,7 @@ Duration: 5:00
 
 Despite that the latter maintained respectively by the tech giants _Facebook_ and _Google_, Vue seems highly attractive to many experienced web developers for its design, its flexibility and ease of development. That makes it very appealing for a newbie like me who doesn't know where to start ;)
 
-This tutorial is about **visualizing data in a web app built with Vue.JS**. It is the codelab version of a presentation by Callum Macrae, ["Data visualisation with Vue.JS"](https://www.youtube.com/watch?v=esI-BymHrEc&t=6s).
+This tutorial is about **visualizing data in a web app built with Vue.JS**. It is the codelab version of a useful presentation by Callum Macrae, ["Data visualisation with Vue.JS"](https://www.youtube.com/watch?v=30v9xnB-GEo).
 
 ### What you will learn
 
@@ -27,7 +27,7 @@ In this tutorial you will learn to do the following:
 * define the properties of this SVG object in Vue.js
 * use Vue transforms to replicate multiple rectangles 
 * inject some javascript to build a bar chart with Vue.js and your simple SVG.
-* finally introduce methods in Vue.js to keep the logic out of the HTML as much as possible.
+* introduce methods in Vue.js to keep the logic out of the HTML as much as possible.
 
 ### Prerequisites
 
