@@ -5,4 +5,3 @@
 1. [Data Processing Reproducibility](https://patechoc.github.io/codelabs/data-processing-reproducibility)
 1. [Learning Elasticsearch by running it in Docker](learning-elasticsearch-running-in-docker)
 1. [Building your first web app with VueJS](https://patechoc.github.io/codelabs/building-your-first-webapp-with-VueJS)
-1. [Basic visualizations with VueJS](https://patechoc.github.io/codelabs/basic-visualization-with-VueJS)

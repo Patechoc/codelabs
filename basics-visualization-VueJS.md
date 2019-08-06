@@ -16,7 +16,7 @@ Duration: 5:00
 
 Despite that the latter maintained respectively by the tech giants _Facebook_ and _Google_, Vue seems highly attractive to many experienced web developers for its design, its flexibility and ease of development. That makes it very appealing for a newbie like me who doesn't know where to start ;)
 
-This tutorial is about **visualizing data in a web app built with Vue.JS**.
+This tutorial is about **visualizing data in a web app built with Vue.JS**. It is the codelab version of a presentation by Callum Macrae, ["Data visualisation with Vue.JS"](https://www.youtube.com/watch?v=esI-BymHrEc&t=6s).
 
 ### What you will learn
 
@@ -62,7 +62,6 @@ you should see:
 
 ```html
 Hello Vue!
-</div>
 ```
 
 ## Now let's draw a vectorized rectangle
@@ -376,7 +375,8 @@ See it by yourself in this [code snippet](https://codepen.io/patechoc/pen/OrBeJG
 
 ## Events in Vue.js
 
-Events use the [`v-on`](https://vuejs.org/v2/guide/syntax.html#v-on-Shorthand) [directive](https://vuejs.org/v2/guide/syntax.html#Directives).
+Events use the [`v-on`](https://vuejs.org/v2/guide/syntax.html#v-on-Shorthand) directive.
+And if you want more on [directives](https://vuejs.org/v2/guide/syntax.html#Directives)...
 
 * If we pass `click` to `v-on` as an argument.
 * when we click anywhere on the SVG chart, we trigger the `handleClick` method.
