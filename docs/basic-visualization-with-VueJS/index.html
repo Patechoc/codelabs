@@ -45,7 +45,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Let&#39;s write Hello World" duration="0">
+      <google-codelab-step label="Let&#39;s write Hello World" duration="5">
         <p>With this <a href="https://codepen.io/patechoc/pen/OrwapX" target="_blank">codepen using only HTML &amp; JS</a> piece of code:</p>
 <pre><code>&lt;!-- development version, includes helpful console warnings --&gt;
 &lt;script src=&#34;https://cdn.jsdelivr.net/npm/vue/dist/vue.js&#34;&gt;&lt;/script&gt;
@@ -68,7 +68,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Now let&#39;s draw a vectorized rectangle" duration="0">
+      <google-codelab-step label="Now let&#39;s draw a vectorized rectangle" duration="5">
         <pre><code>&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34;
       width=&#34;200&#34; height=&#34;200&#34;&gt;
   
@@ -83,7 +83,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="binding SVG and Vue" duration="0">
+      <google-codelab-step label="binding SVG and Vue" duration="5">
         <p>Let&#39;s get back the width and height from Javascript with Vue:</p>
 <pre><code>new Vue({
   el: &#39;#chart&#39;,
@@ -110,7 +110,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Build a bar chart in 15 lines" duration="0">
+      <google-codelab-step label="Build a bar chart in 15 lines" duration="10">
         <p>Start building a bar chart now!</p>
 <p>We introduce the <code>&lt;g&gt;</code> element in SVG, which is a bit like the <code>&lt;div&gt;</code> in HTML. It doesn&#39;t do anything by itself, but you use it to group things together, here a rectangle and some text.</p>
 <pre><code>&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; width=&#34;500&#34; height=&#34;300&#34;&gt;
@@ -181,7 +181,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Extending the Vue object with methods" duration="0">
+      <google-codelab-step label="Extending the Vue object with methods" duration="10">
         <p>Here we move the calculation of the length of the bar and of the position of the text from the HTML template back to javascript with the Vue.js methods <code>barWidth(value)</code> and <code>textPosition(value)</code>. This doesn&#39;t change <a href="https://codepen.io/patechoc/pen/xmyBoQ" target="_blank">the output</a>.</p>
 <pre><code>new Vue({
   el: &#39;#chart&#39;,
@@ -212,7 +212,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Extending the Vue object with computed properties" duration="0">
+      <google-codelab-step label="Extending the Vue object with computed properties" duration="10">
         <p>We hard-coded the scaling factor <code>500/420</code> in the last example. This is not so elegant ;)</p>
 <p>Hopefully for us, Vue.js also includes what is called <strong>computed properties</strong>.</p>
 <p>We don&#39;t have to change the HTML template (a little bit here to update the SVG length and width),</p>
@@ -258,7 +258,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Vue.js methods &amp; computed properties behaves differently" duration="0">
+      <google-codelab-step label="Vue.js methods &amp; computed properties behaves differently" duration="10">
         <h2>Similar functionalities</h2>
 <p>Let&#39;s compare Vue.js methods and computed properties:</p>
 <pre><code>&lt;div id=&#34;chart&#34;&gt;
@@ -316,10 +316,10 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Events in Vue.js" duration="0">
-        <p>Events use the <a href="https://vuejs.org/v2/guide/syntax.html#v-on-Shorthand" target="_blank"><br>v-on</a> directive.<br>And if you want more on <a href="https://vuejs.org/v2/guide/syntax.html#Directives" target="_blank">directives</a>...</p>
+      <google-codelab-step label="Events in Vue.js" duration="15">
+        <p>Events use the <a href="https://vuejs.org/v2/guide/syntax.html#v-on-Shorthand" target="_blank"><br>v-on directive</a>.<br>(More on <a href="https://vuejs.org/v2/guide/syntax.html#Directives" target="_blank">directives</a>...)</p>
 <ul>
-<li>If we pass <code>click</code> to <code>v-on</code> as an argument.</li>
+<li>we pass <code>click</code> to <code>v-on</code> as an argument.</li>
 <li>when we click anywhere on the SVG chart, we trigger the <code>handleClick</code> method.</li>
 <li>In this example the <code>handleClick</code> method just randomize the input data.</li>
 </ul>
@@ -365,8 +365,7 @@ new Vue({
 });
 
 </code></pre>
-<p>Click on the SVG in this <a href="https://codepen.io/patechoc/pen/mazZod" target="_blank">live snippet</a>!</p>
-<p>https://www.youtube.com/watch?v=30v9xnB-GEo<br>http://macr.ae/</p>
+<p>Test it by clicking on the SVG in this <a href="https://codepen.io/patechoc/pen/mazZod" target="_blank">live snippet</a>!</p>
 
 
       </google-codelab-step>
@@ -375,13 +374,14 @@ new Vue({
         <ul>
 <li><a href="https://vuejs.org/v2/guide/" target="_blank">https://vuejs.org/v2/guide/</a></li>
 <li><a href="https://scrimba.com/playlist/pXKqta" target="_blank">Screencasts mirroring the official Vue.js guide</a></li>
-<li>Example: SVG transforms (translation, rotation, skew, scale, matrix, 3D rendering) https://codepen.io/AmeliaBR/pen/aDhrs/</li>
-<li>Example: interactions with widgets using HTML, SCSS (CSS) and Babel (JS) https://codepen.io/airen/pen/LerXYd</li>
-<li>Example using Pug (HTML), Less (CSS) and Babel (JS): https://codepen.io/sirlancelot/pen/NNGYEP</li>
+<li>Example: SVG transforms (translation, rotation, skew, scale, matrix, 3D rendering) <a href="https://codepen.io/AmeliaBR/pen/aDhrs/" target="_blank">https://codepen.io/AmeliaBR/pen/aDhrs/</a></li>
+<li>Example: interactions with widgets using HTML, SCSS (CSS) and Babel (JS) <a href="https://codepen.io/airen/pen/LerXYd" target="_blank">https://codepen.io/airen/pen/LerXYd</a></li>
+<li>Example using Pug (HTML), Less (CSS) and Babel (JS): <a href="https://codepen.io/sirlancelot/pen/NNGYEP" target="_blank">https://codepen.io/sirlancelot/pen/NNGYEP</a></li>
 <li>Example using Pug (HTML), Less (CSS) and Babel (JS): https://codepen.io/sirlancelot/pen/ZWEWbQ</li>
 <li>Many examples with demo: https://vuejsexamples.com/font-awesome-component-for-vue-js-using-inline-svg/</li>
-<li>Art with SVG: (Mathieu Robert Ortis style) https://codepen.io/igstudio/pen/ZQxrBw, the eye https://codepen.io/ge1doot/pen/qLyZvQ</li>
-<li>Maps <strong>[TO BE ADAPTED TO Vue.js]</strong>: https://gist.github.com/auremoser/da1b8fe8de23fe6365923b1a4d8f7b7d</li>
+<li>Art with SVG: (Mathieu Robert Ortis style) <a href="https://codepen.io/igstudio/pen/ZQxrBw" target="_blank">https://codepen.io/igstudio/pen/ZQxrBw</a></li>
+<li>Art with SVG: (Mathieu Robert Ortis style) The eye https://codepen.io/ge1doot/pen/qLyZvQ</li>
+<li>Maps <strong>[TO BE ADAPTED TO Vue.js]</strong>: <a href="https://gist.github.com/auremoser/da1b8fe8de23fe6365923b1a4d8f7b7d" target="_blank">https://gist.github.com/auremoser/da1b8fe8de23fe6365923b1a4d8f7b7d</a></li>
 </ul>
 
 

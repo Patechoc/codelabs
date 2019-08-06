@@ -37,7 +37,7 @@ So If you haven't already, follow this tutorial which teaches you how to [build 
 
 
 ## Let's write Hello World
-
+Duration: 5:00
 
 With this [codepen using only HTML & JS](https://codepen.io/patechoc/pen/OrwapX) piece of code:
 
@@ -65,7 +65,7 @@ Hello Vue!
 ```
 
 ## Now let's draw a vectorized rectangle
-
+Duration: 5:00
 
 ```html
 <svg xmlns="http://www.w3.org/2000/svg"
@@ -81,6 +81,7 @@ Hello Vue!
 Simply test it live: [https://codepen.io/patechoc/pen/PXyerE](https://codepen.io/patechoc/pen/PXyerE).
 
 ## binding SVG and Vue
+Duration: 5:00
 
 Let's get back the width and height from Javascript with Vue:
 
@@ -112,6 +113,7 @@ new Vue({
 You should get the exact same rectangle, but now generated from values coming from Vue.
 
 ## Build a bar chart in 15 lines
+Duration: 10:00
 
 Start building a bar chart now!
 
@@ -209,6 +211,7 @@ The problem with that is that it moves maybe too much of the logic to the HTML t
 
 
 ## Extending the Vue object with methods
+Duration: 10:00
 
 Here we move the calculation of the length of the bar and of the position of the text from the HTML template back to javascript with the Vue.js methods `barWidth(value)` and `textPosition(value)`. This doesn't change [the output](https://codepen.io/patechoc/pen/xmyBoQ).
 
@@ -246,6 +249,7 @@ new Vue({
 Notice that now, we also scale the bars relatively to the highest value we have (here `420`). The length of the highest bar should always be at the max of your SVG width (e.g. `500`), and the others be scaled relatively to that one (i.e. multiplied by a factor `500/420`).
 
 ## Extending the Vue object with computed properties
+Duration: 10:00
 
 We hard-coded the scaling factor `500/420` in the last example. This is not so elegant ;)
 
@@ -332,6 +336,7 @@ new Vue({
 Test it live [here](https://codepen.io/patechoc/pen/mazYdM)!
 
 ### Different behaviour
+Duration: 10:00
 
 Even though they look very similar, they behave very differently.
 
@@ -374,11 +379,12 @@ See it by yourself in this [code snippet](https://codepen.io/patechoc/pen/OrBeJG
 
 
 ## Events in Vue.js
+Duration: 15:00
 
-Events use the [`v-on`](https://vuejs.org/v2/guide/syntax.html#v-on-Shorthand) directive.
-And if you want more on [directives](https://vuejs.org/v2/guide/syntax.html#Directives)...
+Events use the [`v-on` directive](https://vuejs.org/v2/guide/syntax.html#v-on-Shorthand).
+(More on [directives](https://vuejs.org/v2/guide/syntax.html#Directives)...)
 
-* If we pass `click` to `v-on` as an argument.
+* we pass `click` to `v-on` as an argument.
 * when we click anywhere on the SVG chart, we trigger the `handleClick` method.
 * In this example the `handleClick` method just randomize the input data.
 
@@ -430,17 +436,7 @@ new Vue({
 
 ```
 
-Click on the SVG in this [live snippet](https://codepen.io/patechoc/pen/mazZod)!
-
-
-
-
-
-
-https://www.youtube.com/watch?v=30v9xnB-GEo
-http://macr.ae/
-
-
+Test it by clicking on the SVG in this [live snippet](https://codepen.io/patechoc/pen/mazZod)!
 
 
 
@@ -448,10 +444,11 @@ http://macr.ae/
 
 * [https://vuejs.org/v2/guide/](https://vuejs.org/v2/guide/)
 * [Screencasts mirroring the official Vue.js guide](https://scrimba.com/playlist/pXKqta)
-* Example: SVG transforms (translation, rotation, skew, scale, matrix, 3D rendering) https://codepen.io/AmeliaBR/pen/aDhrs/
-* Example: interactions with widgets using HTML, SCSS (CSS) and Babel (JS) https://codepen.io/airen/pen/LerXYd
-* Example using Pug (HTML), Less (CSS) and Babel (JS): https://codepen.io/sirlancelot/pen/NNGYEP
+* Example: SVG transforms (translation, rotation, skew, scale, matrix, 3D rendering) [https://codepen.io/AmeliaBR/pen/aDhrs/](https://codepen.io/AmeliaBR/pen/aDhrs/)
+* Example: interactions with widgets using HTML, SCSS (CSS) and Babel (JS) [https://codepen.io/airen/pen/LerXYd](https://codepen.io/airen/pen/LerXYd)
+* Example using Pug (HTML), Less (CSS) and Babel (JS): [https://codepen.io/sirlancelot/pen/NNGYEP](https://codepen.io/sirlancelot/pen/NNGYEP)
 * Example using Pug (HTML), Less (CSS) and Babel (JS): https://codepen.io/sirlancelot/pen/ZWEWbQ
 * Many examples with demo: https://vuejsexamples.com/font-awesome-component-for-vue-js-using-inline-svg/
-* Art with SVG: (Mathieu Robert Ortis style) https://codepen.io/igstudio/pen/ZQxrBw, the eye https://codepen.io/ge1doot/pen/qLyZvQ
-* Maps **[TO BE ADAPTED TO Vue.js]**: https://gist.github.com/auremoser/da1b8fe8de23fe6365923b1a4d8f7b7d
+* Art with SVG: (Mathieu Robert Ortis style) [https://codepen.io/igstudio/pen/ZQxrBw](https://codepen.io/igstudio/pen/ZQxrBw)
+* Art with SVG: (Mathieu Robert Ortis style) The eye https://codepen.io/ge1doot/pen/qLyZvQ
+* Maps **[TO BE ADAPTED TO Vue.js]**: [https://gist.github.com/auremoser/da1b8fe8de23fe6365923b1a4d8f7b7d](https://gist.github.com/auremoser/da1b8fe8de23fe6365923b1a4d8f7b7d)
