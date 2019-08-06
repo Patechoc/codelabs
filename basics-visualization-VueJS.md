@@ -447,8 +447,10 @@ Test it by clicking on the SVG in this [live snippet](https://codepen.io/patecho
 * Example: SVG transforms (translation, rotation, skew, scale, matrix, 3D rendering) [https://codepen.io/AmeliaBR/pen/aDhrs/](https://codepen.io/AmeliaBR/pen/aDhrs/)
 * Example: interactions with widgets using HTML, SCSS (CSS) and Babel (JS) [https://codepen.io/airen/pen/LerXYd](https://codepen.io/airen/pen/LerXYd)
 * Example using Pug (HTML), Less (CSS) and Babel (JS): [https://codepen.io/sirlancelot/pen/NNGYEP](https://codepen.io/sirlancelot/pen/NNGYEP)
-* Example using Pug (HTML), Less (CSS) and Babel (JS): https://codepen.io/sirlancelot/pen/ZWEWbQ
-* Many examples with demo: https://vuejsexamples.com/font-awesome-component-for-vue-js-using-inline-svg/
+* Example using Pug (HTML), Less (CSS) and Babel (JS): [https://codepen.io/sirlancelot/pen/ZWEWbQ](https://codepen.io/sirlancelot/pen/ZWEWbQ)
+* Many examples with demo: [https://vuejsexamples.com/font-awesome-component-for-vue-js-using-inline-svg/](https://vuejsexamples.com/font-awesome-component-for-vue-js-using-inline-svg/)
 * Art with SVG: (Mathieu Robert Ortis style) [https://codepen.io/igstudio/pen/ZQxrBw](https://codepen.io/igstudio/pen/ZQxrBw)
-* Art with SVG: (Mathieu Robert Ortis style) The eye https://codepen.io/ge1doot/pen/qLyZvQ
+* Art with SVG: (Mathieu Robert Ortis style) The eye [https://codepen.io/ge1doot/pen/qLyZvQ](https://codepen.io/ge1doot/pen/qLyZvQ)
+* Design for Social Innovation School (SVA) course classroom for data visualization [https://github.com/sva-dsi/2018-fall-course](https://github.com/sva-dsi/2018-fall-course)
 * Maps **[TO BE ADAPTED TO Vue.js]**: [https://gist.github.com/auremoser/da1b8fe8de23fe6365923b1a4d8f7b7d](https://gist.github.com/auremoser/da1b8fe8de23fe6365923b1a4d8f7b7d)
+* SVG Tutorial with CSS Animation [https://www.youtube.com/watch?time_continue=526&v=IM8eTD01UE8](https://www.youtube.com/watch?time_continue=526&v=IM8eTD01UE8)
