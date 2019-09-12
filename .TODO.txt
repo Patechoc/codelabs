@@ -1,4 +1,11 @@
 - Build an interface with tags and filters on this tags and search textbox.
-- nurture sharing knowledge with **best practices** [#1](https://ctb.ku.edu/en/creating-and-maintaining-partnerships), best practices [#2](https://ctb.ku.edu/en/table-of-contents/participation/encouraging-involvement/identify-stakeholders/main). Difference between "shared interests" and "collective interests" [post][https://www.lesswrong.com/posts/QcKJA2J5LM7prrAzM/shared-interests-vs-collective-interests]
-- What's working so well in StackOverflow?
-- example at gouvernment level: [Public Participation Guide: Tools for Consensus Building and Agreement Seeking](https://www.epa.gov/international-cooperation/public-participation-guide-tools-consensus-building-and-agreement-seeking)
+- Find local open datasets for training, learn to repodruce cool articles/Studies with local data:
+    - [Origin of bike accident in London](https://www.telegraph.co.uk/motoring/road-safety/8989366/Graphic-Londons-cycle-accident-black-spots-mapped.html)
+- CONSENSUS on everything: knowledge, politics, today's meal, .... 
+    - nurture sharing knowledge with **best practices** [#1](https://ctb.ku.edu/en/creating-and-maintaining-partnerships), best practices [#2](https://ctb.ku.edu/en/table-of-contents/participation/encouraging-involvement/identify-stakeholders/main). Difference between "shared interests" and "collective interests" [post][https://www.lesswrong.com/posts/QcKJA2J5LM7prrAzM/shared-interests-vs-collective-interests]
+    - What's working so well in StackOverflow?
+    - example at gouvernment level: [Public Participation Guide: Tools for Consensus Building and Agreement Seeking](https://www.epa.gov/international-cooperation/public-participation-guide-tools-consensus-building-and-agreement-seeking)
+    - [Open Data Services.coop](https://opendataservices.coop/): Tools for consensus, sharing factual knowledge
+    - [Open Contracting](https://www.open-contracting.org/): Transforming public contracting so that it is open-by-design, fair and efficient.
+    - [Global Open Data Index](https://index.okfn.org/): TRACKING THE STATE OF OPEN GOVERNMENT DATA. The Global Open Data Index provides the most comprehensive snapshot available of the state of open government data publication
+    - apps: [Kialo](https://www.kialo.com/), [DemocracyOS](http://democracyos.org/), [openDemocracy](https://www.opendemocracy.net/en/), ... ~ SPID (getspid... not working)
