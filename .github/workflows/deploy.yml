@@ -1,0 +1,82 @@
+name: Deploy Codelabs
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30  # Increased timeout for build steps
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Initialize and update submodules
+        run: |
+          git submodule update --init --recursive --depth=0
+          git submodule sync --recursive
+
+      - name: Verify that tools/ folder exists and list its contents
+        run: |
+          if [ -d "tools" ]; then
+            echo "tools/ folder exists. Listing files:"
+            ls -al tools/
+          else
+            echo "tools/ folder does not exist."
+            exit 1
+          fi
+
+      - name: Install Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23.0'
+      - run: go version
+
+      - name: Install node and npm
+        uses: actions/setup-node@v4
+        with:
+          node-version: 14
+
+      - name: Install claat
+        run: go install github.com/googlecodelabs/tools/claat@latest
+
+      - name: Add Go bin to PATH
+        run: echo "$GOPATH/bin" >> $GITHUB_PATH
+
+      - name: Verify claat installation
+        run: claat --help
+
+      - name: Install Gulp globally
+        run: npm install -g gulp-cli
+
+      # Convert markdown files to Codelabs (HTML/CSS/JS)
+      - name: Export codelabs using claat
+        run: |
+          cp -r codelabs/ tools/site/
+          cd tools/site/codelabs
+          ls *_en.md | xargs claat export
+
+      - name: Install npm dependencies in tools/site/
+        run: |
+          cd tools/site/
+          npm install
+
+      - name: Build Codelabs landing page with Gulp
+        run: |
+          cd tools/site/
+          gulp dist --codelabs-dir=codelabs --base-url=https://github.com/patechoc/codelabs
+
+      # Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: tools/site/dist
